@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">WallaPadel</string>
+  <string name="google_login_button">Login With Google</string>
 </resources>
