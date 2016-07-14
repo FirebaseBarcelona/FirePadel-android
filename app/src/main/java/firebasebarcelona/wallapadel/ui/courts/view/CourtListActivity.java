@@ -1,7 +1,8 @@
-package firebasebarcelona.wallapadel;
+package firebasebarcelona.wallapadel.ui.courts.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import firebasebarcelona.wallapadel.R;
 
 public class CourtListActivity extends AppCompatActivity {
   @Override
