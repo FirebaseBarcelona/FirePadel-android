@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "174503785192",
+    "firebase_url": "https://padel-109d5.firebaseio.com",
+    "project_id": "padel-109d5",
+    "storage_bucket": "padel-109d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174503785192:android:deb2fbcdc1c3bb8c",
+        "android_client_info": {
+          "package_name": "firebasebarcelona.wallapadel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174503785192-6u8n0n65h92lnsjcgv735gkqslk3uang.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "firebasebarcelona.wallapadel",
+            "certificate_hash": "F7E5F92FE88E133011A3013D434BF87FE85B5EF3"
+          }
+        },
+        {
+          "client_id": "174503785192-se0l963tfe08j1cubqajoj6hj34e88q9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj44qwNSl-Mq2xgkKl8W62EWXZG0hThMI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174503785192-se0l963tfe08j1cubqajoj6hj34e88q9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
