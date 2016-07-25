@@ -1,17 +1,22 @@
 package firebasebarcelona.wallapadel.ui.courts.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import firebasebarcelona.wallapadel.R;
-import firebasebarcelona.wallapadel.ui.login.view.LoginActivity;
 
 public class CourtListActivity extends AppCompatActivity {
+  @BindView(R.id.container) FrameLayout container;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_court_list);
-    Intent i = new Intent(this, LoginActivity.class);
-    startActivity(i);
+    ButterKnife.bind(this);
+    getSupportFragmentManager().beginTransaction().add(new CourtListFragment(), CourtListFragment.TAG).commit();
+    /*Intent i = new Intent(this, LoginActivity.class);
+    startActivity(i);*/
   }
 }
