@@ -1,4 +1,4 @@
-package firebasebarcelona.wallapadel.ui.courts.presentations;
+package firebasebarcelona.wallapadel.ui.courts.presentation;
 
 import javax.inject.Inject;
 

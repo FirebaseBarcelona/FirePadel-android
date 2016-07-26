@@ -2,7 +2,7 @@ package firebasebarcelona.wallapadel.ui.di.module;
 
 import dagger.Module;
 import dagger.Provides;
-import firebasebarcelona.wallapadel.ui.courts.presentations.CourtListView;
+import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListView;
 import firebasebarcelona.wallapadel.ui.login.presentation.GoogleLoginView;
 
 @Module
