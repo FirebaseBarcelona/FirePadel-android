@@ -15,8 +15,6 @@ public class CourtListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_court_list);
     ButterKnife.bind(this);
-    getSupportFragmentManager().beginTransaction().add(new CourtListFragment(), CourtListFragment.TAG).commit();
-    /*Intent i = new Intent(this, LoginActivity.class);
-    startActivity(i);*/
+    getSupportFragmentManager().beginTransaction().add(R.id.container, new CourtListFragment(), CourtListFragment.TAG).commit();
   }
 }
