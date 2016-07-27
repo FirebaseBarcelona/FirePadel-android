@@ -39,11 +39,12 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> {
     @Override
     public void onBindViewHolder(CourtViewHolder holder, int position) {
         CourtViewModel item = items.get(position);
-        for (PlayerViewModel playerViewModel : item.getPlayers()) {
-            ImageView avatar = ButterKnife.findById(holder.players.getChildAt(position), R.id.avatar);
-            imageLoader.loadImage(avatar, playerViewModel.getPhotoUrl());
-            TextView name = ButterKnife.findById(holder.players.getChildAt(position), R.id.name);
-            name.setText(playerViewModel.getName());
+        List<PlayerViewModel> players = item.getPlayers();
+        for (int playerPosition = 0; playerPosition < players.size(); playerPosition++) {
+            ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
+            imageLoader.loadImage(holder.itemView.getContext(), avatar, players.get(playerPosition).getPhotoUrl());
+            TextView name = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.name);
+            name.setText(players.get(playerPosition).getName());
         }
     }
 

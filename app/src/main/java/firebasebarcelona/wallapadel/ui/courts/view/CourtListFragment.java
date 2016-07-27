@@ -28,6 +28,7 @@ public class CourtListFragment extends Fragment implements CourtListView {
     public static final String TAG = CourtListFragment.class.getSimpleName();
     @Inject
     CourtListPresenter presenter;
+    @Inject
     ImageLoader imageLoader;
     @BindView(R.id.courts_list)
     RecyclerView courts;
@@ -45,7 +46,6 @@ public class CourtListFragment extends Fragment implements CourtListView {
         ButterKnife.bind(this, view);
         DaggerViewComponent.builder().viewModule(new ViewModule(this)).build().inject(this);
         initRecyclerView();
-        imageLoader = new ImageLoader(getContext());
         presenter.requestCourts();
     }
 
