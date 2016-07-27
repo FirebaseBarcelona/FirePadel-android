@@ -16,7 +16,7 @@ public class PlayerViewModelMapper {
         return new Player.Builder().id(source.getId()).name(source.getName()).photoUrl(source.getPhotoUrl()).build();
     }
 
-    PlayerViewModel map(Player source) {
+    public PlayerViewModel map(Player source) {
         return new PlayerViewModel.Builder().id(source.getId()).name(source.getName()).photoUrl(source.getPhotoUrl()).build();
     }
 
@@ -34,5 +34,9 @@ public class PlayerViewModelMapper {
             result.add(map(player));
         }
         return result;
+    }
+
+    public Player map(PlayerViewModel source) {
+        return new Player.Builder().id(source.getId()).name(source.getName()).photoUrl(source.getPhotoUrl()).build();
     }
 }

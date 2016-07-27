@@ -8,4 +8,5 @@ public interface CourtListView {
     void showCourts(List<CourtViewModel> courts);
     void updateCourt(CourtViewModel court);
     void showLoginProcess();
+    void loginWithGoogle();
 }

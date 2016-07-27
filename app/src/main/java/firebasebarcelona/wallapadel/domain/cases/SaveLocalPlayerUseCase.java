@@ -1,5 +1,6 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
+import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.domain.models.Player;
 import javax.inject.Inject;
 
@@ -13,7 +14,7 @@ public class SaveLocalPlayerUseCase extends AbstractUseCase {
 
   @Override
   public void run() {
-    //TODO
+    PadelApplication.getInstance().setLocalPlayer(player);
   }
 
   public void execute(Player player, Callback callback) {
@@ -22,7 +23,7 @@ public class SaveLocalPlayerUseCase extends AbstractUseCase {
     run();
   }
 
-  interface Callback {
+  public interface Callback {
     void onSaveLocalPlayerSuccess(Player player);
   }
 }
