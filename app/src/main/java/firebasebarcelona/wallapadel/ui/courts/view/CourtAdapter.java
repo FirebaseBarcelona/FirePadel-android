@@ -11,14 +11,17 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import firebasebarcelona.wallapadel.R;
+import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 
 public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> {
-    List<CourtViewModel> items;
+    private final List<CourtViewModel> items;
+    private final ImageLoader imageLoader;
 
-    public CourtAdapter(List<CourtViewModel> items) {
+    public CourtAdapter(List<CourtViewModel> items, ImageLoader imageLoader) {
         this.items = items;
+        this.imageLoader = imageLoader;
     }
 
     public void setCourts(List<CourtViewModel> items) {
@@ -38,7 +41,7 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> {
         CourtViewModel item = items.get(position);
         for (PlayerViewModel playerViewModel : item.getPlayers()) {
             ImageView avatar = ButterKnife.findById(holder.players.getChildAt(position), R.id.avatar);
-            //TODO load image imageLoader.load(avatar, url);
+            imageLoader.loadImage(avatar, playerViewModel.getPhotoUrl());
             TextView name = ButterKnife.findById(holder.players.getChildAt(position), R.id.name);
             name.setText(playerViewModel.getName());
         }

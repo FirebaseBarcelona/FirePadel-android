@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import firebasebarcelona.wallapadel.R;
+import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListPresenter;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListView;
 import firebasebarcelona.wallapadel.ui.di.component.DaggerViewComponent;
@@ -27,6 +28,7 @@ public class CourtListFragment extends Fragment implements CourtListView {
     public static final String TAG = CourtListFragment.class.getSimpleName();
     @Inject
     CourtListPresenter presenter;
+    ImageLoader imageLoader;
     @BindView(R.id.courts_list)
     RecyclerView courts;
     private CourtAdapter courtAdapter;
@@ -43,11 +45,12 @@ public class CourtListFragment extends Fragment implements CourtListView {
         ButterKnife.bind(this, view);
         DaggerViewComponent.builder().viewModule(new ViewModule(this)).build().inject(this);
         initRecyclerView();
+        imageLoader = new ImageLoader(getContext());
         presenter.requestCourts();
     }
 
     private void initRecyclerView() {
-        courtAdapter = new CourtAdapter(new ArrayList<CourtViewModel>());
+        courtAdapter = new CourtAdapter(new ArrayList<CourtViewModel>(), imageLoader);
         courts.setHasFixedSize(true);
         courts.setLayoutManager(new LinearLayoutManager(getContext()));
         courts.setAdapter(courtAdapter);
