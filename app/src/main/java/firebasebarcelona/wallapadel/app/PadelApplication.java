@@ -2,6 +2,7 @@ package firebasebarcelona.wallapadel.app;
 
 import android.app.Application;
 
+import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,5 +49,17 @@ public class PadelApplication extends Application {
 
     public void setLocalPlayer(Player localPlayer) {
         this.localPlayer = localPlayer;
+    }
+
+    @Nullable
+    public Court addLocalPlayerToCourt(String courtId, Player player) {
+        Court result = null;
+        for (Court court: courts) {
+            if (courtId.equals(court.getId()) && court.getPlayers().size() < 4) {
+                court.getPlayers().add(player);
+                result = court;
+            }
+        }
+        return result;
     }
 }

@@ -1,5 +1,7 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
+import android.app.Application;
+import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.domain.models.Court;
 import firebasebarcelona.wallapadel.domain.models.Player;
 import javax.inject.Inject;
@@ -13,7 +15,7 @@ public class AddPlayerToCourtUseCase extends AbstractUseCase {
   public AddPlayerToCourtUseCase() {
   }
 
-  void execute(String courtId, Player player, Callback callback) {
+  public void execute(String courtId, Player player, Callback callback) {
     this.courtId = courtId;
     this.player = player;
     this.callback = callback;
@@ -22,10 +24,16 @@ public class AddPlayerToCourtUseCase extends AbstractUseCase {
 
   @Override
   public void run() {
-    //TODO
+    Court court = PadelApplication.getInstance().addLocalPlayerToCourt(courtId, player);
+    if (court == null) {
+      callback.onAddPlayerToCourtError();
+    } else {
+      callback.onAddPlayerToCourtSuccess(court);
+    }
   }
 
-  interface Callback {
+  public interface Callback {
     void onAddPlayerToCourtSuccess(Court court);
+    void onAddPlayerToCourtError();
   }
 }

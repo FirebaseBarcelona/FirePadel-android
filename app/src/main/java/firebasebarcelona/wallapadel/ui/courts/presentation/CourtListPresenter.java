@@ -25,6 +25,8 @@ public class CourtListPresenter {
     private final CourtViewModelMapper courtViewModelMapper;
     private final PlayerViewModelMapper playerViewModelMapper;
     private final CourtListView courtListView;
+    private boolean pendingAddLocalPlayer = false;
+    private String pendingCourtId;
 
     @Inject
     public CourtListPresenter(AddPlayerToCourtUseCase addPlayerToCourtUseCase,
@@ -74,7 +76,37 @@ public class CourtListPresenter {
         saveLocalPlayerUseCase.execute(player, new SaveLocalPlayerUseCase.Callback() {
             @Override
             public void onSaveLocalPlayerSuccess(Player player) {
+                if (pendingAddLocalPlayer) {
+                    pendingAddLocalPlayer = false;
+                    requestAddLocalPlayerToCourt(pendingCourtId);
+                }
+            }
+        });
+    }
 
+    public void requestAddLocalPlayerToCourt(final String courtId) {
+        getLocalPlayerUseCase.execute(new GetLocalPlayerUseCase.Callback() {
+            @Override
+            public void onGetLocalPlayerSuccess(Player player) {
+                addPlayerToCourtUseCase.execute(courtId, player, new AddPlayerToCourtUseCase.Callback() {
+                    @Override
+                    public void onAddPlayerToCourtSuccess(Court court) {
+                        CourtViewModel courtViewModel = courtViewModelMapper.map(court);
+                        courtListView.updateCourt(courtViewModel);
+                    }
+
+                    @Override
+                    public void onAddPlayerToCourtError() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onGetLocalPlayerError() {
+                pendingCourtId = courtId;
+                pendingAddLocalPlayer = true;
+                courtListView.loginWithGoogle();
             }
         });
     }

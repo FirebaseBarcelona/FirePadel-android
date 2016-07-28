@@ -43,7 +43,8 @@ import firebasebarcelona.wallapadel.ui.di.module.ViewModule;
 import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 
-public class CourtListFragment extends Fragment implements CourtListView, GoogleApiClient.OnConnectionFailedListener {
+public class CourtListFragment extends Fragment implements CourtListView, GoogleApiClient.OnConnectionFailedListener,
+    CourtAdapter.CourtAdapterEvents {
     public static final String TAG = CourtListFragment.class.getSimpleName();
     @Inject
     CourtListPresenter presenter;
@@ -70,7 +71,7 @@ public class CourtListFragment extends Fragment implements CourtListView, Google
     }
 
     private void initRecyclerView() {
-        courtAdapter = new CourtAdapter(new ArrayList<CourtViewModel>(), imageLoader);
+        courtAdapter = new CourtAdapter(new ArrayList<CourtViewModel>(), imageLoader, this);
         courts.setHasFixedSize(true);
         courts.setLayoutManager(new LinearLayoutManager(getContext()));
         courts.setAdapter(courtAdapter);
@@ -83,12 +84,17 @@ public class CourtListFragment extends Fragment implements CourtListView, Google
 
     @Override
     public void updateCourt(CourtViewModel court) {
-
+        courtAdapter.updateCourt(court);
     }
 
     @Override
     public void showLoginProcess() {
 
+    }
+
+    @Override
+    public void onRequestAddPlayerToCourt(String courtId) {
+        presenter.requestAddLocalPlayerToCourt(courtId);
     }
 
     //TODO every piece of code from here needs a refactor

@@ -15,13 +15,16 @@ import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 
-public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> {
+public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder>
+    implements CourtViewHolder.CourtViewHolderEvents {
     private final List<CourtViewModel> items;
     private final ImageLoader imageLoader;
+    private final CourtAdapterEvents events;
 
-    public CourtAdapter(List<CourtViewModel> items, ImageLoader imageLoader) {
+    public CourtAdapter(List<CourtViewModel> items, ImageLoader imageLoader, CourtAdapterEvents events) {
         this.items = items;
         this.imageLoader = imageLoader;
+        this.events = events;
     }
 
     public void setCourts(List<CourtViewModel> items) {
@@ -33,7 +36,7 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> {
     @Override
     public CourtViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_court, parent, false);
-        return new CourtViewHolder(view);
+        return new CourtViewHolder(view, this);
     }
 
     @Override
@@ -51,5 +54,25 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> {
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public void onAddButtonClick(int position) {
+        CourtViewModel courtViewModel = items.get(position);
+        String id = courtViewModel.getId();
+        events.onRequestAddPlayerToCourt(id);
+    }
+
+    public void updateCourt(CourtViewModel court) {
+        for (int position = 0; position < items.size(); position++) {
+            if (court.getId().equals(items.get(position).getId())) {
+                items.set(position, court);
+                notifyItemChanged(position);
+            }
+        }
+    }
+
+    interface CourtAdapterEvents {
+        void onRequestAddPlayerToCourt(String courtId);
     }
 }
