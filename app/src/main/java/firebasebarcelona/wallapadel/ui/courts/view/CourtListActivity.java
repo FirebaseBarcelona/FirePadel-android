@@ -10,6 +10,7 @@ import firebasebarcelona.wallapadel.R;
 
 public class CourtListActivity extends AppCompatActivity {
   @BindView(R.id.container) FrameLayout container;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
