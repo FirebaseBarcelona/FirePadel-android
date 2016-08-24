@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import firebasebarcelona.wallapadel.R;
-import firebasebarcelona.wallapadel.ui.di.component.DaggerViewComponent;
+import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
 import firebasebarcelona.wallapadel.ui.login.presentation.GoogleLoginPresenter;
 import firebasebarcelona.wallapadel.ui.login.presentation.GoogleLoginView;
 import javax.inject.Inject;

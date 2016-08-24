@@ -1,4 +1,4 @@
-package firebasebarcelona.wallapadel.ui.di.scope;
+package firebasebarcelona.wallapadel.app.di.scope;
 
 import java.lang.annotation.Retention;
 import javax.inject.Scope;

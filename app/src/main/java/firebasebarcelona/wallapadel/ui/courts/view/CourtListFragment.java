@@ -28,11 +28,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import firebasebarcelona.wallapadel.R;
+import firebasebarcelona.wallapadel.app.PadelApplication;
+import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
+import firebasebarcelona.wallapadel.app.di.module.ViewModule;
 import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListPresenter;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListView;
-import firebasebarcelona.wallapadel.ui.di.component.DaggerViewComponent;
-import firebasebarcelona.wallapadel.ui.di.module.ViewModule;
 import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 import java.util.ArrayList;
@@ -59,7 +60,8 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-    DaggerViewComponent.builder().viewModule(new ViewModule(this)).build().inject(this);
+    DaggerViewComponent.builder().applicationComponent(PadelApplication.getInstance().getApplicationComponent()).viewModule(
+    new ViewModule(this)).build().inject(this);
     initRecyclerView();
     initFirebase();
     initGoogleApi();

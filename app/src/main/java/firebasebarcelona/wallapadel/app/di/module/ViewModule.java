@@ -1,4 +1,4 @@
-package firebasebarcelona.wallapadel.ui.di.module;
+package firebasebarcelona.wallapadel.app.di.module;
 
 import dagger.Module;
 import dagger.Provides;

@@ -3,6 +3,7 @@ package firebasebarcelona.wallapadel.domain.cases;
 import android.support.annotation.NonNull;
 
 import firebasebarcelona.wallapadel.app.PadelApplication;
+import firebasebarcelona.wallapadel.data.courts.repository.CourtRepository;
 import firebasebarcelona.wallapadel.domain.models.Court;
 import firebasebarcelona.wallapadel.domain.models.Player;
 
@@ -11,10 +12,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class GetCourtsUseCase extends AbstractUseCase {
+  private final CourtRepository courtRepository;
   private Callback callback;
 
   @Inject
-  public GetCourtsUseCase() {
+  public GetCourtsUseCase(CourtRepository courtRepository) {
+    this.courtRepository = courtRepository;
   }
 
   public void execute(Callback callback) {
@@ -24,8 +27,7 @@ public class GetCourtsUseCase extends AbstractUseCase {
 
   @Override
   public void run() {
-    List<Court> courts = PadelApplication.getInstance().getCourts();
-    callback.onGetCourtsSuccess(courts);
+    courtRepository.getCourts(callback);
   }
 
   public interface Callback {
