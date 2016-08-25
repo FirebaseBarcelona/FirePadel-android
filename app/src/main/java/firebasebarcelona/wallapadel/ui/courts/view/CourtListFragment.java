@@ -129,7 +129,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   private void saveLocalPlayer(FirebaseUser user) {
     Uri photoUri = user.getPhotoUrl();
     PlayerViewModel playerViewModel =
-    new PlayerViewModel.Builder().id(user.getUid()).photoUrl(photoUri == null ? "" : photoUri.toString()).name(
+    new PlayerViewModel.Builder().id(user.getEmail()).photoUrl(photoUri == null ? "" : photoUri.toString()).name(
     user.getDisplayName()).build();
     presenter.setLocalPlayer(playerViewModel);
   }

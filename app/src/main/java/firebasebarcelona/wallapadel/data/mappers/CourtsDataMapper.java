@@ -18,9 +18,14 @@ import javax.inject.Singleton;
   public List<Court> map(List<CourtData> courts) {
     List<Court> result = new ArrayList<>();
     for (CourtData court : courts) {
-      Court courtDomain = new Court.Builder().id(court.getId()).players(playersMapper.map(court.getPlayers())).build();
+      Court courtDomain = map(court);
       result.add(courtDomain);
     }
     return result;
+  }
+
+  public Court map(CourtData data) {
+    Court courtDomain = new Court.Builder().id(data.getId()).players(playersMapper.map(data.getPlayers())).build();
+    return courtDomain;
   }
 }

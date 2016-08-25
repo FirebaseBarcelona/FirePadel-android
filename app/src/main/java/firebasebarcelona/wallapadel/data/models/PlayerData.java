@@ -5,6 +5,18 @@ public class PlayerData {
   String email;
   String name;
 
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getAvatar() {
     return avatar;
   }

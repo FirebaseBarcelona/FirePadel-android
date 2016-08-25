@@ -94,11 +94,6 @@ public class CourtListPresenter {
                         CourtViewModel courtViewModel = courtViewModelMapper.map(court);
                         courtListView.updateCourt(courtViewModel);
                     }
-
-                    @Override
-                    public void onAddPlayerToCourtError() {
-
-                    }
                 });
             }
 
