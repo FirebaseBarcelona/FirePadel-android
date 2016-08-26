@@ -21,8 +21,9 @@ public class PlayersDataMapper {
     return players;
   }
 
-  private Player map(PlayerData data) {
-    return new Player.Builder().id(data.getEmail()).name(data.getName()).photoUrl(data.getAvatar()).build();
+  public Player map(PlayerData data) {
+    Player player = new Player.Builder().id(data.getEmail()).name(data.getName()).photoUrl(data.getAvatar()).build();
+    return player ;
   }
 
   public PlayerData map(Player player) {

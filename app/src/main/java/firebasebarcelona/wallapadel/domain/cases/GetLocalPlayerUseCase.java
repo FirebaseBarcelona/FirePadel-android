@@ -1,26 +1,26 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
+import firebasebarcelona.wallapadel.data.player.repository.PlayerRepository;
+import firebasebarcelona.wallapadel.domain.models.Player;
 import javax.inject.Inject;
 
-import firebasebarcelona.wallapadel.app.PadelApplication;
-import firebasebarcelona.wallapadel.domain.models.Player;
-
 public class GetLocalPlayerUseCase extends AbstractUseCase {
+  private final PlayerRepository playerRepository;
   private Callback callback;
 
   @Inject
-  public GetLocalPlayerUseCase() {
+  public GetLocalPlayerUseCase(PlayerRepository playerRepository) {
+    this.playerRepository = playerRepository;
   }
 
   @Override
   public void run() {
-    Player player = PadelApplication.getInstance().getLocalPlayer();
+    Player player = playerRepository.getMyPlayer();
     if (player != null) {
       callback.onGetLocalPlayerSuccess(player);
     } else {
       callback.onGetLocalPlayerError();
     }
-
   }
 
   public void execute(Callback callback) {

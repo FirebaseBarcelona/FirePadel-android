@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import firebasebarcelona.wallapadel.domain.cases.AddPlayerToCourtUseCase;
 import firebasebarcelona.wallapadel.domain.cases.GetCourtsUseCase;
 import firebasebarcelona.wallapadel.domain.cases.GetLocalPlayerUseCase;
-import firebasebarcelona.wallapadel.domain.cases.RemovePlayerFromCourtUseCase;
 import firebasebarcelona.wallapadel.domain.cases.SaveLocalPlayerUseCase;
 import firebasebarcelona.wallapadel.domain.models.Court;
 import firebasebarcelona.wallapadel.domain.models.Player;
@@ -19,7 +18,6 @@ import firebasebarcelona.wallapadel.ui.models.PlayerViewModelMapper;
 public class CourtListPresenter {
     private final AddPlayerToCourtUseCase addPlayerToCourtUseCase;
     private final GetCourtsUseCase getCourtsUseCase;
-    private final RemovePlayerFromCourtUseCase removePlayerFromCourtUseCase;
     private final GetLocalPlayerUseCase getLocalPlayerUseCase;
     private final SaveLocalPlayerUseCase saveLocalPlayerUseCase;
     private final CourtViewModelMapper courtViewModelMapper;
@@ -31,7 +29,6 @@ public class CourtListPresenter {
     @Inject
     public CourtListPresenter(AddPlayerToCourtUseCase addPlayerToCourtUseCase,
                               GetCourtsUseCase getCourtsUseCase,
-                              RemovePlayerFromCourtUseCase removePlayerFromCourtUseCase,
                               GetLocalPlayerUseCase getLocalPlayerUseCase,
                               SaveLocalPlayerUseCase saveLocalPlayerUseCase,
                               CourtViewModelMapper courtViewModelMapper,
@@ -39,7 +36,6 @@ public class CourtListPresenter {
                               CourtListView courtListView) {
         this.addPlayerToCourtUseCase = addPlayerToCourtUseCase;
         this.getCourtsUseCase = getCourtsUseCase;
-        this.removePlayerFromCourtUseCase = removePlayerFromCourtUseCase;
         this.getLocalPlayerUseCase = getLocalPlayerUseCase;
         this.saveLocalPlayerUseCase = saveLocalPlayerUseCase;
         this.courtViewModelMapper = courtViewModelMapper;
@@ -53,20 +49,6 @@ public class CourtListPresenter {
             public void onGetCourtsSuccess(List<Court> courts) {
                 List<CourtViewModel> courtViewModels = courtViewModelMapper.map(courts);
                 courtListView.showCourts(courtViewModels);
-            }
-        });
-    }
-
-    public void requestLocalPlayer() {
-        getLocalPlayerUseCase.execute(new GetLocalPlayerUseCase.Callback() {
-            @Override
-            public void onGetLocalPlayerSuccess(Player player) {
-                PlayerViewModel playerViewModel = playerViewModelMapper.map(player);
-            }
-
-            @Override
-            public void onGetLocalPlayerError() {
-                courtListView.loginWithGoogle();
             }
         });
     }

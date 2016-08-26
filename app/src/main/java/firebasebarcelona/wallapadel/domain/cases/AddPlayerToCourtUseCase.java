@@ -28,8 +28,13 @@ public class AddPlayerToCourtUseCase extends AbstractUseCase {
   public void run() {
     courtRepository.addPlayerToCourt(courtId, player, new GetCourtCallback() {
       @Override
-      public void onGetCourtSuccess(Court court) {
-        callback.onAddPlayerToCourtSuccess(court);
+      public void onGetCourtSuccess(final Court court) {
+        launchOnMainThread(new Runnable() {
+          @Override
+          public void run() {
+            callback.onAddPlayerToCourtSuccess(court);
+          }
+        });
       }
     });
   }
