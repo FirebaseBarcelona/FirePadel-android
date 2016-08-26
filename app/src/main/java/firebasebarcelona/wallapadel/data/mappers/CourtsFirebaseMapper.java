@@ -40,4 +40,8 @@ import javax.inject.Singleton;
     setPlayers(snapshot, courtData);
     return courtData;
   }
+
+  public String getPlayerId(DataSnapshot snapshot) {
+    return (String) snapshot.child("email").getValue();
+  }
 }

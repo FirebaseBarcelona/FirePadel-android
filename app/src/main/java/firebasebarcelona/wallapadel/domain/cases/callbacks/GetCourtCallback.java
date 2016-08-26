@@ -1,4 +1,4 @@
-package firebasebarcelona.wallapadel.data.courts.repository;
+package firebasebarcelona.wallapadel.domain.cases.callbacks;
 
 import firebasebarcelona.wallapadel.domain.models.Court;
 

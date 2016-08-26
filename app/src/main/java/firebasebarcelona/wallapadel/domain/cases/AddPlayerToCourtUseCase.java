@@ -1,7 +1,7 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
 import firebasebarcelona.wallapadel.data.courts.repository.CourtRepository;
-import firebasebarcelona.wallapadel.data.courts.repository.GetCourtCallback;
+import firebasebarcelona.wallapadel.domain.cases.callbacks.GetCourtCallback;
 import firebasebarcelona.wallapadel.domain.models.Court;
 import firebasebarcelona.wallapadel.domain.models.Player;
 import javax.inject.Inject;
