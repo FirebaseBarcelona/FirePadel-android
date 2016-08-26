@@ -11,13 +11,12 @@ import firebasebarcelona.wallapadel.data.mappers.CourtsDataMapper;
 import firebasebarcelona.wallapadel.data.mappers.CourtsFirebaseMapper;
 import firebasebarcelona.wallapadel.data.mappers.PlayersDataMapper;
 import firebasebarcelona.wallapadel.data.models.CourtData;
+import firebasebarcelona.wallapadel.data.models.PlayerData;
 import firebasebarcelona.wallapadel.domain.cases.GetCourtsUseCase;
-import firebasebarcelona.wallapadel.domain.models.Player;
 import java.util.List;
 import javax.inject.Inject;
 
 public class CourtCloudDataSource {
-  private final FirebaseDatabase firebaseDatabase;
   private final CourtsFirebaseMapper firebaseMapper;
   private final CourtsDataMapper mapperData;
   private final PlayersDataMapper playersDataMapper;
@@ -25,49 +24,37 @@ public class CourtCloudDataSource {
   private final DatabaseReference reference;
 
   @Inject
-  public CourtCloudDataSource(FirebaseDatabase firebaseDatabase, CourtsFirebaseMapper firebaseMapper,
-                             CourtsDataMapper mapperData, PlayersDataMapper playersDataMapper) {
-    this.firebaseDatabase = firebaseDatabase;
+  public CourtCloudDataSource(FirebaseDatabase firebaseDatabase, CourtsFirebaseMapper firebaseMapper, CourtsDataMapper mapperData,
+                             PlayersDataMapper playersDataMapper) {
     this.firebaseMapper = firebaseMapper;
     this.mapperData = mapperData;
     this.playersDataMapper = playersDataMapper;
     reference = firebaseDatabase.getReference(COURT_NODE);
   }
 
-  public void removePlayerFromCourt(final String courtId, final Player player, final OnCourtModifiedCallback onCourtModifiedCallback){
-    reference.child("court"+courtId).child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+  public void removePlayerFromCourt(final String courtId, final PlayerData playerData,
+                                   final OnCourtModifiedCallback onCourtModifiedCallback) {
+    reference.child("court" + courtId).child("users").child(playerData.getUuid()).removeValue(
+    new DatabaseReference.CompletionListener() {
       @Override
-      public void onDataChange(DataSnapshot snapshot) {
-        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-          final String playerId = firebaseMapper.getPlayerId(dataSnapshot);
-          if(player.getId().equals(playerId)){
-            dataSnapshot.getRef().removeValue(new DatabaseReference.CompletionListener() {
-              @Override
-              public void onComplete(DatabaseError error, DatabaseReference reference) {
-                getCourt(courtId, onCourtModifiedCallback);
-              }
-            });
-          }
-        }
-      }
-      @Override
-      public void onCancelled(DatabaseError error) {
+      public void onComplete(DatabaseError error, DatabaseReference reference) {
+        getCourt(courtId, onCourtModifiedCallback);
       }
     });
   }
 
-  public void addPlayerToCourt(final String id, Player player, final OnCourtModifiedCallback getCourtCallback) {
-    reference.child("court"+id).child("users").push().setValue(playersDataMapper.map(player),
+  public void addPlayerToCourt(final String courtId, PlayerData playerData, final OnCourtModifiedCallback getCourtCallback) {
+    reference.child("court" + courtId).child("users").child(playerData.getUuid()).setValue(playerData,
     new DatabaseReference.CompletionListener() {
       @Override
       public void onComplete(DatabaseError error, DatabaseReference reference) {
-        getCourt(id, getCourtCallback);
+        getCourt(courtId, getCourtCallback);
       }
     });
   }
 
   public void getCourt(String courtId, final OnCourtModifiedCallback callback) {
-    Query query = reference.child("court"+courtId);
+    Query query = reference.child("court" + courtId);
     query.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot snapshot) {
