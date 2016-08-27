@@ -15,8 +15,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class CourtCloudDataSource {
-  private final CourtsFirebaseMapper firebaseMapper;
   private static final String COURT_NODE = "/courts";
+  private final CourtsFirebaseMapper firebaseMapper;
   private final DatabaseReference reference;
 
   @Inject
