@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">WallaPadel</string>
   <string name="google_login_button">Login With Google</string>
+  <string name="chat_hint">Wirte a message</string>
 </resources>

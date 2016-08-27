@@ -65,7 +65,9 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     DaggerViewComponent.builder().applicationComponent(PadelApplication.getInstance().getApplicationComponent()).viewModule(
     new ViewModule(this)).build().inject(this);
     initFirebase();
-    initGoogleApi();
+    if (savedInstanceState == null) {
+      initGoogleApi();
+    }
     initRecyclerView();
     presenter.requestCourts();
   }
