@@ -1,19 +1,14 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
-import android.support.annotation.NonNull;
-
-import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.data.courts.repository.CourtRepository;
 import firebasebarcelona.wallapadel.domain.models.Court;
-import firebasebarcelona.wallapadel.domain.models.Player;
-
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import javax.inject.Inject;
 
 public class GetCourtsUseCase extends AbstractUseCase {
   private final CourtRepository courtRepository;
-  private Callback callback;
+  private WeakReference<Callback> callbackReference;
 
   @Inject
   public GetCourtsUseCase(CourtRepository courtRepository) {
@@ -21,13 +16,21 @@ public class GetCourtsUseCase extends AbstractUseCase {
   }
 
   public void execute(Callback callback) {
-    this.callback = callback;
+    this.callbackReference = new WeakReference<>(callback);
     run();
   }
 
   @Override
   public void run() {
-    courtRepository.getCourts(callback);
+    courtRepository.getCourts(new Callback() {
+      @Override
+      public void onGetCourtsSuccess(List<Court> courts) {
+        Callback callback = GetCourtsUseCase.this.callbackReference.get();
+        if (callback != null) {
+          callback.onGetCourtsSuccess(courts);
+        }
+      }
+    });
   }
 
   public interface Callback {

@@ -44,4 +44,8 @@ import javax.inject.Singleton;
   public String getPlayerId(DataSnapshot snapshot) {
     return (String) snapshot.child("email").getValue();
   }
+
+  public String getCourtId(String courtId) {
+    return "court"+courtId;
+  }
 }

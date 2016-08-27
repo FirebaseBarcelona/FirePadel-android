@@ -1,7 +1,6 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
 import firebasebarcelona.wallapadel.data.courts.repository.CourtRepository;
-import firebasebarcelona.wallapadel.data.courts.repository.callbacks.OnRemovePlayerFromCourtCallback;
 import firebasebarcelona.wallapadel.domain.models.Court;
 import firebasebarcelona.wallapadel.domain.models.Player;
 import javax.inject.Inject;
@@ -26,12 +25,7 @@ public class RemovePlayerFromCourtUseCase extends AbstractUseCase {
 
   @Override
   public void run() {
-    courtRepository.removePlayerFromCourt(courtId, player, new OnRemovePlayerFromCourtCallback() {
-      @Override
-      public void onRemovePlayerFromCourtSuccess(Court court) {
-        callback.onRemovePlayerFromCourtSuccess(court);
-      }
-    });
+    courtRepository.removePlayerFromCourt(courtId, player);
   }
 
   public interface Callback {
