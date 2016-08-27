@@ -57,6 +57,7 @@ public class CourtListPresenter {
   }
 
   public void setLocalPlayer(PlayerViewModel playerViewModel) {
+    courtListView.setMyPlayer(playerViewModel);
     Player player = playerViewModelMapper.map(playerViewModel);
     saveLocalPlayerUseCase.execute(player, new SaveLocalPlayerUseCase.Callback() {
       @Override
@@ -105,5 +106,8 @@ public class CourtListPresenter {
         courtListView.loginWithGoogle();
       }
     });
+  }
+
+  public void requestToChat(String courtId) {
   }
 }

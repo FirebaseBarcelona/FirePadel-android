@@ -49,6 +49,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   private CourtAdapter courtAdapter;
   private GoogleSignInOptions googleSignInOptions;
   private GoogleApiClient client;
+  private PlayerViewModel myPlayer;
 
   @Nullable
   @Override
@@ -62,9 +63,9 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     ButterKnife.bind(this, view);
     DaggerViewComponent.builder().applicationComponent(PadelApplication.getInstance().getApplicationComponent()).viewModule(
     new ViewModule(this)).build().inject(this);
-    initRecyclerView();
     initFirebase();
     initGoogleApi();
+    initRecyclerView();
     presenter.requestCourts();
   }
 
@@ -77,7 +78,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   }
 
   private void initRecyclerView() {
-    courtAdapter = new CourtAdapter(new ArrayList<CourtViewModel>(), imageLoader, this);
+    courtAdapter = new CourtAdapter(new ArrayList<CourtViewModel>(), imageLoader, myPlayer, this);
     courts.setHasFixedSize(true);
     courts.setLayoutManager(new LinearLayoutManager(getContext()));
     courts.setAdapter(courtAdapter);
@@ -100,6 +101,11 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   @Override
   public void onRequestAddPlayerToCourt(String courtId) {
     presenter.requestAddLocalPlayerToCourt(courtId);
+  }
+
+  @Override
+  public void onRequestToChat(String courtId) {
+    presenter.requestToChat(courtId);
   }
 
   //TODO every piece of code from here needs a refactor
@@ -181,6 +187,11 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   public void loginWithGoogle() {
     Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(client);
     startActivityForResult(signInIntent, RC_GOOGLE_LOGIN);
+  }
+
+  @Override
+  public void setMyPlayer(PlayerViewModel myPlayer) {
+    this.myPlayer = myPlayer;
   }
 
   @Override

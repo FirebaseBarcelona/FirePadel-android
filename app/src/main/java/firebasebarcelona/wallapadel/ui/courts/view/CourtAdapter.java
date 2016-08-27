@@ -17,11 +17,13 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
   private static final int MAX_PLAYERS = 4;
   private final List<CourtViewModel> items;
   private final ImageLoader imageLoader;
+  private final PlayerViewModel myPlayer;
   private final CourtAdapterEvents events;
 
-  public CourtAdapter(List<CourtViewModel> items, ImageLoader imageLoader, CourtAdapterEvents events) {
+  public CourtAdapter(List<CourtViewModel> items, ImageLoader imageLoader, PlayerViewModel myPlayer, CourtAdapterEvents events) {
     this.items = items;
     this.imageLoader = imageLoader;
+    this.myPlayer = myPlayer;
     this.events = events;
   }
 
@@ -42,11 +44,16 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
     CourtViewModel item = items.get(position);
     List<PlayerViewModel> players = item.getPlayers();
     resetViewHolder(holder);
+    holder.chat.setVisibility(View.GONE);
     for (int playerPosition = 0; playerPosition < players.size(); playerPosition++) {
+      PlayerViewModel player = players.get(playerPosition);
       ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
-      imageLoader.loadImage(holder.itemView.getContext(), avatar, players.get(playerPosition).getPhotoUrl());
+      imageLoader.loadImage(holder.itemView.getContext(), avatar, player.getPhotoUrl());
       TextView name = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.name);
-      name.setText(players.get(playerPosition).getName());
+      name.setText(player.getName());
+      if (myPlayer != null && player.getId().equals(myPlayer.getId())) {
+        holder.chat.setVisibility(View.VISIBLE);
+      }
     }
   }
 
@@ -71,6 +78,13 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
     events.onRequestAddPlayerToCourt(id);
   }
 
+  @Override
+  public void onChatClicked(int position) {
+    CourtViewModel courtViewModel = items.get(position);
+    String courtId = courtViewModel.getId();
+    events.onRequestToChat(courtId);
+  }
+
   public void updateCourt(CourtViewModel court) {
     for (int position = 0; position < items.size(); position++) {
       if (court.getId().equals(items.get(position).getId())) {
@@ -82,5 +96,6 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
 
   interface CourtAdapterEvents {
     void onRequestAddPlayerToCourt(String courtId);
+    void onRequestToChat(String courtId);
   }
 }
