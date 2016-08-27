@@ -31,6 +31,7 @@ import firebasebarcelona.wallapadel.R;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
 import firebasebarcelona.wallapadel.app.di.module.ViewModule;
+import firebasebarcelona.wallapadel.ui.chat.view.ChatActivity;
 import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListPresenter;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListView;
@@ -192,6 +193,12 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   @Override
   public void setMyPlayer(PlayerViewModel myPlayer) {
     this.myPlayer = myPlayer;
+  }
+
+  @Override
+  public void openChat(String courtId) {
+    Intent i = ChatActivity.newIntent(getActivity(), courtId);
+    startActivity(i);
   }
 
   @Override

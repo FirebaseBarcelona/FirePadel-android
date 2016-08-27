@@ -109,5 +109,6 @@ public class CourtListPresenter {
   }
 
   public void requestToChat(String courtId) {
+    courtListView.openChat(courtId);
   }
 }

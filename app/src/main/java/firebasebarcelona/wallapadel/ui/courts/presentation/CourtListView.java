@@ -10,4 +10,5 @@ public interface CourtListView {
   void showLoginProcess();
   void loginWithGoogle();
   void setMyPlayer(PlayerViewModel myPlayer);
+  void openChat(String courtId);
 }
