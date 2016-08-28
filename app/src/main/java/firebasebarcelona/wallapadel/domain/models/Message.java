@@ -4,11 +4,17 @@ public class Message {
   private final String message;
   private final String userUUID;
   private final String avatar;
+  private final String name;
 
   private Message(Builder builder) {
     message = builder.message;
     userUUID = builder.userUUID;
     avatar = builder.avatar;
+    name = builder.name;
+  }
+
+  public String getName() {
+    return name;
   }
 
   public String getMessage() {
@@ -27,6 +33,7 @@ public class Message {
     private String message;
     private String userUUID;
     private String avatar;
+    private String name;
 
     public Builder() {
     }
@@ -43,6 +50,11 @@ public class Message {
 
     public Builder avatar(String val) {
       avatar = val;
+      return this;
+    }
+
+    public Builder name(String val) {
+      name = val;
       return this;
     }
 

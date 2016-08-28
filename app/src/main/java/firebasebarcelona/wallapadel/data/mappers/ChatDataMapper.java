@@ -17,7 +17,8 @@ public class ChatDataMapper {
 
   public MessageData map(Message message) {
     MessageData messageData =
-    new MessageData.Builder().message(message.getMessage()).uuid(message.getUserUUID()).avatar(message.getAvatar()).build();
+    new MessageData.Builder().message(message.getMessage()).uuid(message.getUserUUID()).avatar(message.getAvatar()).name(
+    message.getName()).build();
     return messageData;
   }
 
