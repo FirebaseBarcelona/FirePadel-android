@@ -20,6 +20,8 @@
         android:textSize="18sp" />
 
     <LinearLayout
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
         android:id="@+id/players"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +35,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:layout_marginTop="8dp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content">
 
@@ -40,6 +43,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:layout_marginTop="8dp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content">
 
@@ -47,6 +51,8 @@
       </LinearLayout>
 
       <LinearLayout
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content">
 

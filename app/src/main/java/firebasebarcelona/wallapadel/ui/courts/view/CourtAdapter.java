@@ -50,6 +50,7 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
       holder.chat.setVisibility(View.INVISIBLE);
     } else {
       holder.titleNoPlayers.setVisibility(View.GONE);
+      initFABs(holder, players);
       for (int playerPosition = 0; playerPosition < players.size(); playerPosition++) {
         PlayerViewModel player = players.get(playerPosition);
         ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
@@ -58,20 +59,22 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
         name.setText(player.getName());
         if (myPlayer != null && player.getId().equals(myPlayer.getId())) {
           playerInCourt(holder);
-        } else {
-          playerNotInCourt(holder);
         }
       }
     }
   }
 
-  private void playerNotInCourt(CourtViewHolder holder) {
+  private void initFABs(CourtViewHolder holder, List<PlayerViewModel> players) {
     holder.addPlayer.setImageResource(R.drawable.add);
     holder.chat.setVisibility(View.GONE);
+    if (players.size() == 4) {
+      holder.addPlayer.setVisibility(View.GONE);
+    }
   }
 
   private void playerInCourt(CourtViewHolder holder) {
     holder.chat.setVisibility(View.VISIBLE);
+    holder.addPlayer.setVisibility(View.VISIBLE);
     holder.addPlayer.setImageResource(R.drawable.remove);
   }
 
