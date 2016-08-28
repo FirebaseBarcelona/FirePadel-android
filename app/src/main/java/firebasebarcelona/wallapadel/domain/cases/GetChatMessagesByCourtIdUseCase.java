@@ -24,7 +24,7 @@ public class GetChatMessagesByCourtIdUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     chatRepository.getMessages(courtId, new OnMessagesReadyCallback() {
       @Override
       public void onMessageReady(final List<Message> messages) {

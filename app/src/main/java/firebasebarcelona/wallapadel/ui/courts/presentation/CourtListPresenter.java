@@ -28,6 +28,7 @@ public class CourtListPresenter {
   private String pendingCourtId;
   private IsPlayerInCourtUseCase isPlayerInCourtUseCase;
   private RemovePlayerFromCourtUseCase removePlayerFromCourtUseCase;
+  private GetCourtsUseCase.Callback getCourtsCallback;
 
   @Inject
   public CourtListPresenter(AddPlayerToCourtUseCase addPlayerToCourtUseCase, GetCourtsUseCase getCourtsUseCase,
@@ -47,13 +48,14 @@ public class CourtListPresenter {
   }
 
   public void requestCourts() {
-    getCourtsUseCase.execute(new GetCourtsUseCase.Callback() {
+    getCourtsCallback = new GetCourtsUseCase.Callback() {
       @Override
       public void onGetCourtsSuccess(List<Court> courts) {
         List<CourtViewModel> courtViewModels = courtViewModelMapper.map(courts);
         courtListView.showCourts(courtViewModels);
       }
-    });
+    };
+    getCourtsUseCase.execute(getCourtsCallback);
   }
 
   public void setLocalPlayer(PlayerViewModel playerViewModel) {

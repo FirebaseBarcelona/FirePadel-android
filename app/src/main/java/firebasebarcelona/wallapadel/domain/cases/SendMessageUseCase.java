@@ -19,10 +19,14 @@ public class SendMessageUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     Player myPlayer = playerRepository.getMyPlayer();
-    Message msg = new Message.Builder().message(message).userUUID(myPlayer.getId()).build();
-    chatRepository.sendMessage(courtId, msg);
+    if (myPlayer != null) {
+      Message msg = new Message.Builder().message(message).userUUID(myPlayer.getId()).avatar(myPlayer.getPhotoUrl()).build();
+      chatRepository.sendMessage(courtId, msg);
+    } else {
+      throw new RuntimeException("Not player logged");
+    }
   }
 
   public void execute(String courtId, String message) {

@@ -1,5 +1,6 @@
 package firebasebarcelona.wallapadel.ui.chat.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import firebasebarcelona.wallapadel.R;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
@@ -29,25 +33,40 @@ public class ChatFragment extends Fragment implements ChatView {
   @BindView(R.id.list) RecyclerView chatList;
   @BindView(R.id.message_to_send) EditText messageToBeSent;
   private ChatAdapter chatAdapter;
+  private String courtId;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     doInjection();
+    parseArguments();
   }
 
-  @Override
-  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    Bundle extras = getActivity().getIntent().getExtras();
-    String courtId = extras.getString(COURT_ID);
-    chatPresenter.requestToChat(courtId);
-    Toast.makeText(getActivity(), "Court " + courtId, Toast.LENGTH_SHORT).show();
+  private void parseArguments() {
+    Bundle arguments = getArguments();
+    courtId = arguments.getString(COURT_ID);
   }
 
   private void doInjection() {
     DaggerViewComponent.builder().applicationComponent(PadelApplication.getInstance().getApplicationComponent()).viewModule(
     new ViewModule(this)).build().inject(this);
+  }
+
+  @OnEditorAction(R.id.message_to_send)
+  public boolean onSendMessageActionDone(int action) {
+    if (action == EditorInfo.IME_ACTION_DONE) {
+      onSendMessageClick();
+      hideKeyboard();
+      return true;
+    }
+    return false;
+  }
+
+  private void hideKeyboard() {
+    if (getView() != null) {
+      InputMethodManager imm = (InputMethodManager) getView().getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+      imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
   }
 
   @Nullable
@@ -61,6 +80,8 @@ public class ChatFragment extends Fragment implements ChatView {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
     initRecyclerView();
+    chatPresenter.requestToChat(courtId);
+    Toast.makeText(getActivity(), "Court " + courtId, Toast.LENGTH_SHORT).show();
   }
 
   @Override
@@ -69,7 +90,7 @@ public class ChatFragment extends Fragment implements ChatView {
   }
 
   private void initRecyclerView() {
-    chatAdapter = new ChatAdapter();
+    chatAdapter = new ChatAdapter(getActivity());
     chatList.setAdapter(chatAdapter);
     chatList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
   }
@@ -87,5 +108,11 @@ public class ChatFragment extends Fragment implements ChatView {
   @Override
   public void clearMessageToBeSend() {
     messageToBeSent.getText().clear();
+  }
+
+  public static Fragment newInsntace(Bundle extras) {
+    Fragment fragment = new ChatFragment();
+    fragment.setArguments(extras);
+    return fragment;
   }
 }

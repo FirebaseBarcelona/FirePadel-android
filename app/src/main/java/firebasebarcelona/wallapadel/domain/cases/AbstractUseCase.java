@@ -8,4 +8,11 @@ public abstract class AbstractUseCase implements Runnable {
   protected void launch() {
     run();
   }
+
+  @Override
+  public final void run() {
+    onRun();
+  }
+
+  protected abstract void onRun();
 }

@@ -15,7 +15,7 @@ public class SaveLocalPlayerUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     playerRepository.storeMyPlayer(player);
     launchOnMainThread(new Runnable() {
       @Override

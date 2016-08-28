@@ -19,6 +19,6 @@ public class MessagesViewModelMapper {
   }
 
   private MessageViewModel map(Message message) {
-    return new MessageViewModel(message.getMessage(), message.getUserUUID());
+    return new MessageViewModel(message.getMessage(), message.getUserUUID(), message.getAvatar());
   }
 }

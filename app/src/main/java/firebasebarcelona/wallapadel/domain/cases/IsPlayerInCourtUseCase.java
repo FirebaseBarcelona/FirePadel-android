@@ -20,7 +20,7 @@ public class IsPlayerInCourtUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     courtRepository.getCourt(courtId, new GetCourtCallback() {
       @Override
       public void onGetCourtSuccess(Court court) {

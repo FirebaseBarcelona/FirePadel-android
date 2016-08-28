@@ -26,11 +26,11 @@
           android:id="@+id/send_message"
           android:layout_width="24dp"
           android:layout_height="24dp"
+          android:layout_gravity="center"
           android:layout_marginRight="8dp"
           android:layout_marginTop="15dp"
-          android:layout_gravity="center"
-          android:backgroundTint="@color/colorAccent"
-          android:background="@drawable/send" />
+          android:background="@drawable/send"
+          android:backgroundTint="@color/colorAccent" />
     </FrameLayout>
 
     <EditText
@@ -40,7 +40,10 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_toLeftOf="@id/send_message_container"
-        android:hint="@string/chat_hint" />
+        android:hint="@string/chat_hint"
+        android:lines="1"
+        android:singleLine="true"
+        android:imeOptions="actionDone" />
 
   </RelativeLayout>
 </LinearLayout>

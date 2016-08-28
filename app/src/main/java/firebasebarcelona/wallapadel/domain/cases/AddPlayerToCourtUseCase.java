@@ -24,7 +24,7 @@ public class AddPlayerToCourtUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     courtRepository.addPlayerToCourt(courtId, player);
   }
 

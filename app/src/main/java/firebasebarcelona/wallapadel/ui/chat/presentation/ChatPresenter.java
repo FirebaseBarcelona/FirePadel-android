@@ -14,14 +14,7 @@ public class ChatPresenter {
   private final GetChatMessagesByCourtIdUseCase getChatMessagesByCourtIdUseCase;
   private final MessagesViewModelMapper mapper;
 
-  private GetChatMessagesByCourtIdUseCase.OnMessagesReadyCallback callback =
-  new GetChatMessagesByCourtIdUseCase.OnMessagesReadyCallback() {
-    @Override
-    public void onMessageReady(List<Message> messages) {
-      messages = invert(messages);
-      view.updateMessages(mapper.map(messages));
-    }
-  };
+  private GetChatMessagesByCourtIdUseCase.OnMessagesReadyCallback callback;
   private String courtId;
   private SendMessageUseCase sendMessageUseCase;
 
@@ -35,8 +28,17 @@ public class ChatPresenter {
   }
 
   public void requestToChat(String courtId) {
-    this.courtId = courtId;
-    getChatMessagesByCourtIdUseCase.execute(courtId, callback);
+    if (callback == null) {
+      callback = new GetChatMessagesByCourtIdUseCase.OnMessagesReadyCallback() {
+        @Override
+        public void onMessageReady(List<Message> messages) {
+          messages = invert(messages);
+          view.updateMessages(mapper.map(messages));
+        }
+      };
+      this.courtId = courtId;
+      getChatMessagesByCourtIdUseCase.execute(courtId, callback);
+    }
   }
 
   private List<Message> invert(List<Message> messages) {

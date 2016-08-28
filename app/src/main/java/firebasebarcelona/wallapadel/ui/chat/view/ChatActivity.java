@@ -19,10 +19,11 @@ public class ChatActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_chat);
     ButterKnife.bind(this);
-    getSupportFragmentManager().beginTransaction().add(R.id.container, new ChatFragment(), ChatActivity.TAG).commit();
+    if (savedInstanceState == null) {
+      getSupportFragmentManager().beginTransaction().add(R.id.container, ChatFragment.newInsntace(getIntent().getExtras()),
+      ChatActivity.TAG).commit();
+    }
   }
-
-
 
   public static Intent newIntent(Context context, String courtId) {
     Intent i = new Intent(context, ChatActivity.class);

@@ -14,7 +14,7 @@ public class GetLocalPlayerUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     Player player = playerRepository.getMyPlayer();
     if (player != null) {
       callback.onGetLocalPlayerSuccess(player);

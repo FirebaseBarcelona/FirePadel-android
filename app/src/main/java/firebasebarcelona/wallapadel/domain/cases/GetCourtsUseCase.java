@@ -21,7 +21,7 @@ public class GetCourtsUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     courtRepository.getCourts(new Callback() {
       @Override
       public void onGetCourtsSuccess(List<Court> courts) {

@@ -24,7 +24,7 @@ public class RemovePlayerFromCourtUseCase extends AbstractUseCase {
   }
 
   @Override
-  public void run() {
+  protected void onRun() {
     courtRepository.removePlayerFromCourt(courtId, player);
   }
 
