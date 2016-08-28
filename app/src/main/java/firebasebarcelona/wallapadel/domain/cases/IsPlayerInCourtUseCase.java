@@ -1,6 +1,7 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
 import firebasebarcelona.wallapadel.data.courts.repository.CourtRepository;
+import firebasebarcelona.wallapadel.data.player.repository.PlayerRepository;
 import firebasebarcelona.wallapadel.domain.cases.callbacks.GetCourtCallback;
 import firebasebarcelona.wallapadel.domain.cases.callbacks.IsPlayerInCourtCallback;
 import firebasebarcelona.wallapadel.domain.models.Court;
@@ -10,24 +11,35 @@ import javax.inject.Inject;
 
 public class IsPlayerInCourtUseCase extends AbstractUseCase {
   private final CourtRepository courtRepository;
+  private final PlayerRepository playerRepository;
   private String courtId;
-  private Player player;
   private IsPlayerInCourtCallback callback;
 
   @Inject
-  public IsPlayerInCourtUseCase(CourtRepository courtRepository) {
+  public IsPlayerInCourtUseCase(CourtRepository courtRepository, PlayerRepository playerRepository) {
     this.courtRepository = courtRepository;
+    this.playerRepository = playerRepository;
   }
 
   @Override
   protected void onRun() {
-    courtRepository.getCourt(courtId, new GetCourtCallback() {
-      @Override
-      public void onGetCourtSuccess(Court court) {
-        List<Player> courtPlayers = court.getPlayers();
-        checkIfPlayerInCourt(player, courtPlayers);
-      }
-    });
+    final Player player = playerRepository.getMyPlayer();
+    if (player != null) {
+      courtRepository.getCourt(courtId, new GetCourtCallback() {
+        @Override
+        public void onGetCourtSuccess(Court court) {
+          List<Player> courtPlayers = court.getPlayers();
+          checkIfPlayerInCourt(player, courtPlayers);
+        }
+      });
+    }else{
+      launchOnMainThread(new Runnable() {
+        @Override
+        public void run() {
+          callback.onLoginRequired();
+        }
+      });
+    }
   }
 
   private void checkIfPlayerInCourt(Player player, List<Player> players) {
@@ -44,9 +56,8 @@ public class IsPlayerInCourtUseCase extends AbstractUseCase {
     }
   }
 
-  public void execute(String courtId, Player player, IsPlayerInCourtCallback callback) {
+  public void execute(String courtId, IsPlayerInCourtCallback callback) {
     this.courtId = courtId;
-    this.player = player;
     this.callback = callback;
     run();
   }

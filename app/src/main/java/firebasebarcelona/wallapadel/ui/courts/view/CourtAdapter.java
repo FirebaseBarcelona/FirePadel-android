@@ -44,17 +44,35 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
     CourtViewModel item = items.get(position);
     List<PlayerViewModel> players = item.getPlayers();
     resetViewHolder(holder);
-    holder.chat.setVisibility(View.GONE);
-    for (int playerPosition = 0; playerPosition < players.size(); playerPosition++) {
-      PlayerViewModel player = players.get(playerPosition);
-      ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
-      imageLoader.loadImage(holder.itemView.getContext(), avatar, player.getPhotoUrl());
-      TextView name = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.name);
-      name.setText(player.getName());
-      if (myPlayer != null && player.getId().equals(myPlayer.getId())) {
-        holder.chat.setVisibility(View.VISIBLE);
+    if (players.isEmpty()) {
+      holder.titleNoPlayers.setVisibility(View.VISIBLE);
+      holder.addPlayer.setImageResource(R.drawable.add);
+      holder.chat.setVisibility(View.INVISIBLE);
+    } else {
+      holder.titleNoPlayers.setVisibility(View.GONE);
+      for (int playerPosition = 0; playerPosition < players.size(); playerPosition++) {
+        PlayerViewModel player = players.get(playerPosition);
+        ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
+        imageLoader.loadImage(holder.itemView.getContext(), avatar, player.getPhotoUrl());
+        TextView name = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.name);
+        name.setText(player.getName());
+        if (myPlayer != null && player.getId().equals(myPlayer.getId())) {
+          playerInCourt(holder);
+        } else {
+          playerNotInCourt(holder);
+        }
       }
     }
+  }
+
+  private void playerNotInCourt(CourtViewHolder holder) {
+    holder.addPlayer.setImageResource(R.drawable.add);
+    holder.chat.setVisibility(View.GONE);
+  }
+
+  private void playerInCourt(CourtViewHolder holder) {
+    holder.chat.setVisibility(View.VISIBLE);
+    holder.addPlayer.setImageResource(R.drawable.remove);
   }
 
   private void resetViewHolder(CourtViewHolder holder) {

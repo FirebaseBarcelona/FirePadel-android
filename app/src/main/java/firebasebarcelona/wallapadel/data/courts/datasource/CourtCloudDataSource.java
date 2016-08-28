@@ -11,8 +11,11 @@ import firebasebarcelona.wallapadel.data.courts.repository.callbacks.OnCourtModi
 import firebasebarcelona.wallapadel.data.mappers.CourtsFirebaseMapper;
 import firebasebarcelona.wallapadel.data.models.CourtData;
 import firebasebarcelona.wallapadel.data.models.PlayerData;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.Subscriber;
 
 public class CourtCloudDataSource {
   private static final String COURT_NODE = "/courts";
@@ -60,11 +63,52 @@ public class CourtCloudDataSource {
 
   public void getCourts(final GetCourtsDataCallback callback) {
     Query query = reference;
-    query.addValueEventListener(new ValueEventListener() {
+    query.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot snapshot) {
         List<CourtData> courts = firebaseMapper.map(snapshot);
         callback.onGetCourtsSuccess(courts);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError error) {
+      }
+    });
+  }
+
+  public Observable<List<CourtData>> subscribeToCourts() {
+    return Observable.create(new Observable.OnSubscribe<List<CourtData>>() {
+      @Override
+      public void call(final Subscriber<? super List<CourtData>> subscriber) {
+        final Query query = reference;
+        query.addValueEventListener(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot snapshot) {
+            subscriber.onNext(firebaseMapper.map(snapshot));
+          }
+
+          @Override
+          public void onCancelled(DatabaseError error) {
+            subscriber.onCompleted();
+          }
+        });
+      }
+    });
+  }
+
+  public void subscribeToCourts(final GetCourtsDataCallback callback) {
+    final WeakReference<GetCourtsDataCallback> callbackWeakReference = new WeakReference<>(callback);
+    final Query query = reference;
+    query.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot snapshot) {
+        GetCourtsDataCallback courtCallback = callbackWeakReference.get();
+        if (courtCallback != null) {
+          List<CourtData> courts = firebaseMapper.map(snapshot);
+          callback.onGetCourtsSuccess(courts);
+        } else {
+          query.removeEventListener(this);
+        }
       }
 
       @Override

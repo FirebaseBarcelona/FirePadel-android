@@ -31,6 +31,7 @@ import firebasebarcelona.wallapadel.R;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
 import firebasebarcelona.wallapadel.app.di.module.ViewModule;
+import firebasebarcelona.wallapadel.ui.DpConversor;
 import firebasebarcelona.wallapadel.ui.chat.view.ChatActivity;
 import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListPresenter;
@@ -46,6 +47,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   public static final String TAG = CourtListFragment.class.getSimpleName();
   @Inject CourtListPresenter presenter;
   @Inject ImageLoader imageLoader;
+  @Inject DpConversor dpConversor;
   @BindView(R.id.courts_list) RecyclerView courts;
   private CourtAdapter courtAdapter;
   private GoogleSignInOptions googleSignInOptions;
@@ -69,7 +71,6 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
       initGoogleApi();
     }
     initRecyclerView();
-    presenter.requestCourts();
   }
 
   private void initGoogleApi() {
@@ -85,6 +86,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     courts.setHasFixedSize(true);
     courts.setLayoutManager(new LinearLayoutManager(getContext()));
     courts.setAdapter(courtAdapter);
+    courts.addItemDecoration(new CourtsItemDecorator(dpConversor));
   }
 
   @Override
@@ -127,7 +129,6 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
           saveLocalPlayer(user);
-          Toast.makeText(getActivity(), "Auth correct " + user.getUid(), Toast.LENGTH_SHORT).show();
         } else {
           Toast.makeText(getActivity(), "Auth fail", Toast.LENGTH_SHORT).show();
         }
@@ -146,6 +147,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   public void onStart() {
     super.onStart();
     firebaseAuth.addAuthStateListener(authStateListener);
+    presenter.subscribeToCourts();
   }
 
   @Override
@@ -154,6 +156,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     if (authStateListener != null) {
       firebaseAuth.removeAuthStateListener(authStateListener);
     }
+    presenter.unsubscribeToCourts();
   }
 
   @Override
@@ -195,6 +198,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   @Override
   public void setMyPlayer(PlayerViewModel myPlayer) {
     this.myPlayer = myPlayer;
+    ((CourtListParent) getActivity()).renderLoggedUser(myPlayer);
   }
 
   @Override
@@ -204,6 +208,15 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   }
 
   @Override
+  public void renderAddPlayerToCourtError() {
+    Toast.makeText(getActivity(), "You are already in another court", Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
   public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+  }
+
+  public interface CourtListParent {
+    void renderLoggedUser(PlayerViewModel playerViewModel);
   }
 }

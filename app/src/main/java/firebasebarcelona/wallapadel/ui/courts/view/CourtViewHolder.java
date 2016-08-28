@@ -4,6 +4,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -13,6 +14,8 @@ public class CourtViewHolder extends RecyclerView.ViewHolder {
   private final CourtViewHolderEvents events;
   @BindView(R.id.players) LinearLayout players;
   @BindView(R.id.chat) FloatingActionButton chat;
+  @BindView(R.id.title_no_players) TextView titleNoPlayers;
+  @BindView(R.id.add_player) FloatingActionButton addPlayer;
 
   public CourtViewHolder(View itemView, CourtViewHolderEvents events) {
     super(itemView);

@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    app:cardCornerRadius="@dimen/item_court_corner_radius">
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    app:cardCornerRadius="@dimen/item_court_corner_radius">
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title_no_players"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="@string/no_players_joined"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/players"
@@ -12,49 +25,60 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_player" />
-        </LinearLayout>
+        <include layout="@layout/layout_player" />
+      </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_player" />
-        </LinearLayout>
+        <include layout="@layout/layout_player" />
+      </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_player" />
-        </LinearLayout>
+        <include layout="@layout/layout_player" />
+      </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_player" />
-        </LinearLayout>
+        <include layout="@layout/layout_player" />
+      </LinearLayout>
 
     </LinearLayout>
+  </FrameLayout>
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:layout_marginBottom="8dp">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        />
+        android:layout_marginRight="8dp"
+        android:src="@drawable/add"
+        android:tint="@color/colorPrimary" />
 
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/chat"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginRight="75dp"
-      android:layout_gravity="right|bottom|end"
-      />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom|end"
+        android:layout_marginRight="80dp"
+        android:src="@drawable/chat"
+        android:tint="@color/colorPrimary" />
+  </FrameLayout>
 
 </android.support.v7.widget.CardView>
