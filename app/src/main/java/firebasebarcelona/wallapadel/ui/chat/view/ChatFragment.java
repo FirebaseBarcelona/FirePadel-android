@@ -87,9 +87,20 @@ public class ChatFragment extends Fragment implements ChatView {
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-    chatPresenter.requestToChat(courtId);
     Toast.makeText(getActivity(), "Court " + courtId, Toast.LENGTH_SHORT).show();
     configureInputMode();
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    chatPresenter.requestToChat(courtId);
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    chatPresenter.unsubscribeToChat();
   }
 
   private void configureInputMode() {

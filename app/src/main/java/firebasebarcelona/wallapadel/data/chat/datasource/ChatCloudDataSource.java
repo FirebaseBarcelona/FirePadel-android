@@ -9,7 +9,10 @@ import firebasebarcelona.wallapadel.data.chat.repository.callbacks.OnMessagesDat
 import firebasebarcelona.wallapadel.data.mappers.ChatMessagesFirebaseMapper;
 import firebasebarcelona.wallapadel.data.mappers.CourtsFirebaseMapper;
 import firebasebarcelona.wallapadel.data.models.MessageData;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.Subscriber;
 
 public class ChatCloudDataSource {
   private static final String COURT_NODE = "/courts";
@@ -40,5 +43,24 @@ public class ChatCloudDataSource {
 
   public void sendMessage(String courtId, MessageData message) {
     database.child(firebaseMapper.getCourtId(courtId)).child("messages").push().setValue(message);
+  }
+
+  public Observable<List<MessageData>> subscribeToChat(final String courtId) {
+    return Observable.create(new Observable.OnSubscribe<List<MessageData>>() {
+      @Override
+      public void call(final Subscriber<? super List<MessageData>> subscriber) {
+        database.child(firebaseMapper.getCourtId(courtId)).child("messages").addValueEventListener(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot snapshot) {
+            subscriber.onNext(mapper.mapList(snapshot));
+          }
+
+          @Override
+          public void onCancelled(DatabaseError error) {
+            subscriber.onCompleted();
+          }
+        });
+      }
+    });
   }
 }

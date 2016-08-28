@@ -1,8 +1,10 @@
 package firebasebarcelona.wallapadel.ui.chat.presentation;
 
+import firebasebarcelona.wallapadel.app.rx.AbsSubscriber;
 import firebasebarcelona.wallapadel.domain.cases.GetChatMessagesByCourtIdUseCase;
 import firebasebarcelona.wallapadel.domain.cases.GetLocalPlayerUseCase;
 import firebasebarcelona.wallapadel.domain.cases.SendMessageUseCase;
+import firebasebarcelona.wallapadel.domain.cases.SubscribeToChatByCourtIdUseCase;
 import firebasebarcelona.wallapadel.domain.models.Message;
 import firebasebarcelona.wallapadel.domain.models.Player;
 import firebasebarcelona.wallapadel.ui.models.MessagesViewModelMapper;
@@ -22,33 +24,30 @@ public class ChatPresenter {
   private SendMessageUseCase sendMessageUseCase;
   private final GetLocalPlayerUseCase getLocalPlayerUseCase;
   private PlayerViewModelMapper playerMapper;
+  private final SubscribeToChatByCourtIdUseCase subscribeToChatByCourtIdUseCase;
   private Player myPlayer;
 
   @Inject
   public ChatPresenter(ChatView view, GetChatMessagesByCourtIdUseCase getChatMessagesByCourtIdUseCase,
                       MessagesViewModelMapper mapper, SendMessageUseCase sendMessageUseCase, PlayerViewModelMapper playerMapper,
-                      GetLocalPlayerUseCase getLocalPlayerUseCase) {
+                      GetLocalPlayerUseCase getLocalPlayerUseCase,
+                      SubscribeToChatByCourtIdUseCase subscribeToChatByCourtIdUseCase) {
     this.view = view;
     this.getChatMessagesByCourtIdUseCase = getChatMessagesByCourtIdUseCase;
     this.mapper = mapper;
     this.sendMessageUseCase = sendMessageUseCase;
     this.getLocalPlayerUseCase = getLocalPlayerUseCase;
     this.playerMapper = playerMapper;
+    this.subscribeToChatByCourtIdUseCase = subscribeToChatByCourtIdUseCase;
   }
 
   public void requestToChat(String courtId) {
-    if (callback == null) {
-      fetchLocalPlayer();
-      callback = new GetChatMessagesByCourtIdUseCase.OnMessagesReadyCallback() {
-        @Override
-        public void onMessageReady(List<Message> messages) {
-          messages = invert(messages);
-          view.updateMessages(mapper.map(messages));
-        }
-      };
-      this.courtId = courtId;
-      getChatMessagesByCourtIdUseCase.execute(courtId, callback);
-    }
+    this.courtId = courtId;
+    fetchLocalPlayer();
+  }
+
+  public void unsubscribeToChat() {
+    subscribeToChatByCourtIdUseCase.unsuscribe();
   }
 
   private void fetchLocalPlayer() {
@@ -57,10 +56,20 @@ public class ChatPresenter {
       public void onGetLocalPlayerSuccess(Player player) {
         myPlayer = player;
         view.renderList(playerMapper.map(player));
+        subscribeToChat();
       }
 
       @Override
       public void onGetLocalPlayerError() {
+      }
+    });
+  }
+
+  private void subscribeToChat() {
+    subscribeToChatByCourtIdUseCase.execute(courtId, new AbsSubscriber<List<Message>>() {
+      @Override
+      public void onNext(List<Message> messages) {
+        view.updateMessages(mapper.map(invert(messages)));
       }
     });
   }

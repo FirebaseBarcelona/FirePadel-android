@@ -8,6 +8,8 @@ import firebasebarcelona.wallapadel.domain.cases.GetChatMessagesByCourtIdUseCase
 import firebasebarcelona.wallapadel.domain.models.Message;
 import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.functions.Func1;
 
 public class ChatRepository {
   private final ChatCloudDataSource chatCloudDataSource;
@@ -30,5 +32,15 @@ public class ChatRepository {
 
   public void sendMessage(String courtId, Message message) {
     chatCloudDataSource.sendMessage(courtId, mapper.map(message));
+  }
+
+  public Observable<List<Message>> subscribeToChat(String courtId) {
+    return chatCloudDataSource.subscribeToChat(courtId).map(
+    new Func1<List<MessageData>, List<Message>>() {
+      @Override
+      public List<Message> call(List<MessageData> messageDatas) {
+        return mapper.map(messageDatas);
+      }
+    });
   }
 }
