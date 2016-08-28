@@ -1,5 +1,6 @@
 package firebasebarcelona.wallapadel.domain.cases;
 
+import com.google.firebase.database.FirebaseDatabase;
 import firebasebarcelona.wallapadel.data.chat.repository.ChatRepository;
 import firebasebarcelona.wallapadel.domain.models.Message;
 import java.lang.ref.WeakReference;

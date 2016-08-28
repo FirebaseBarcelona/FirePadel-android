@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface ChatView {
   void updateMessages(List<MessageViewModel> messages);
+  void clearMessageToBeSend();
 }

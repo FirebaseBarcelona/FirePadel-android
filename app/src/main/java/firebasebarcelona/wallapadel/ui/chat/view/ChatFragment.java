@@ -20,7 +20,6 @@ import firebasebarcelona.wallapadel.app.di.module.ViewModule;
 import firebasebarcelona.wallapadel.ui.chat.presentation.ChatPresenter;
 import firebasebarcelona.wallapadel.ui.chat.presentation.ChatView;
 import firebasebarcelona.wallapadel.ui.models.MessageViewModel;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -72,27 +71,21 @@ public class ChatFragment extends Fragment implements ChatView {
   private void initRecyclerView() {
     chatAdapter = new ChatAdapter();
     chatList.setAdapter(chatAdapter);
-    chatList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true ));
-    //List<MessageViewModel> messages = new ArrayList<>();
-    //MessageViewModel messageViewModel = new MessageViewModel("HOla", "asd");
-    //messages.add(messageViewModel);
-    //messageViewModel = new MessageViewModel("Que tal", "asd");
-    //messages.add(messageViewModel);
-    //messageViewModel = new MessageViewModel("Bien", "asd");
-    //messages.add(messageViewModel);
-    //messageViewModel = new MessageViewModel("Y tu", "asd");
-    //messages.add(messageViewModel);
-    //messageViewModel = new MessageViewModel("Tambien bien", "asd");
-    //messages.add(messageViewModel);
-    //chatAdapter.updateMessages(messages);
+    chatList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
   }
 
   @OnClick(R.id.send_message)
   public void onSendMessageClick() {
+    chatPresenter.onSendMessageClick(messageToBeSent.getText().toString());
   }
 
   @Override
   public void updateMessages(List<MessageViewModel> messages) {
     chatAdapter.updateMessages(messages);
+  }
+
+  @Override
+  public void clearMessageToBeSend() {
+    messageToBeSent.getText().clear();
   }
 }

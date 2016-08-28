@@ -8,6 +8,7 @@ import com.google.firebase.database.ValueEventListener;
 import firebasebarcelona.wallapadel.data.chat.repository.callbacks.OnMessagesDataReadyCallback;
 import firebasebarcelona.wallapadel.data.mappers.ChatMessagesFirebaseMapper;
 import firebasebarcelona.wallapadel.data.mappers.CourtsFirebaseMapper;
+import firebasebarcelona.wallapadel.data.models.MessageData;
 import javax.inject.Inject;
 
 public class ChatCloudDataSource {
@@ -35,5 +36,9 @@ public class ChatCloudDataSource {
       public void onCancelled(DatabaseError error) {
       }
     });
+  }
+
+  public void sendMessage(String courtId, MessageData message) {
+    database.child(firebaseMapper.getCourtId(courtId)).child("messages").push().setValue(message);
   }
 }

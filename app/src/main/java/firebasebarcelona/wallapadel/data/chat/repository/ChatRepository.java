@@ -5,6 +5,7 @@ import firebasebarcelona.wallapadel.data.chat.repository.callbacks.OnMessagesDat
 import firebasebarcelona.wallapadel.data.mappers.ChatDataMapper;
 import firebasebarcelona.wallapadel.data.models.MessageData;
 import firebasebarcelona.wallapadel.domain.cases.GetChatMessagesByCourtIdUseCase;
+import firebasebarcelona.wallapadel.domain.models.Message;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -25,5 +26,9 @@ public class ChatRepository {
         callback.onMessageReady(mapper.map(messages));
       }
     });
+  }
+
+  public void sendMessage(String courtId, Message message) {
+    chatCloudDataSource.sendMessage(courtId, mapper.map(message));
   }
 }
