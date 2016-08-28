@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:gravity="bottom"
               android:orientation="vertical">
 
   <android.support.v7.widget.RecyclerView
       android:id="@+id/list"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_weight="7" />
+      android:layout_weight="1" />
 
   <RelativeLayout
       android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:orientation="horizontal">
+      android:layout_height="wrap_content"
+      android:layout_weight="0">
 
-    <FrameLayout
-        android:id="@+id/send_message_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true">
-
-      <Button
-          android:id="@+id/send_message"
-          android:layout_width="24dp"
-          android:layout_height="24dp"
-          android:layout_gravity="center"
-          android:layout_marginRight="8dp"
-          android:layout_marginTop="15dp"
-          android:background="@drawable/send"
-          android:backgroundTint="@color/colorAccent" />
-    </FrameLayout>
+    <Button
+        android:id="@+id/send_message"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/send"
+        android:backgroundTint="@color/colorAccent" />
 
     <EditText
         android:id="@+id/message_to_send"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_toLeftOf="@id/send_message_container"
+        android:layout_toLeftOf="@id/send_message"
         android:hint="@string/chat_hint"
-        android:lines="1"
-        android:singleLine="true"
-        android:imeOptions="actionDone" />
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="5"
+        tools:text="sasdkla
+        dasd
+        as
+        d
+        asdasdads" />
 
   </RelativeLayout>
 </LinearLayout>

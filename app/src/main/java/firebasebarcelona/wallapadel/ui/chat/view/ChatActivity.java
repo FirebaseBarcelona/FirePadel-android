@@ -20,7 +20,7 @@ public class ChatActivity extends AppCompatActivity {
     setContentView(R.layout.activity_chat);
     ButterKnife.bind(this);
     if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction().add(R.id.container, ChatFragment.newInsntace(getIntent().getExtras()),
+      getSupportFragmentManager().beginTransaction().add(R.id.container, ChatFragment.newInstance(getIntent().getExtras()),
       ChatActivity.TAG).commit();
     }
   }

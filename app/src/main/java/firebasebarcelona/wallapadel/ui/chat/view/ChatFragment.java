@@ -1,6 +1,7 @@
 package firebasebarcelona.wallapadel.ui.chat.view;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -56,8 +57,10 @@ public class ChatFragment extends Fragment implements ChatView {
   public boolean onSendMessageActionDone(int action) {
     if (action == EditorInfo.IME_ACTION_DONE) {
       onSendMessageClick();
-      hideKeyboard();
-      return true;
+      if (isInLandscape()) {
+        hideKeyboard();
+        return true;
+      }
     }
     return false;
   }
@@ -67,6 +70,10 @@ public class ChatFragment extends Fragment implements ChatView {
       InputMethodManager imm = (InputMethodManager) getView().getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
+  }
+
+  private boolean isInLandscape() {
+    return getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
   }
 
   @Nullable
@@ -82,6 +89,15 @@ public class ChatFragment extends Fragment implements ChatView {
     initRecyclerView();
     chatPresenter.requestToChat(courtId);
     Toast.makeText(getActivity(), "Court " + courtId, Toast.LENGTH_SHORT).show();
+    configureInputMode();
+  }
+
+  private void configureInputMode() {
+    if(isInLandscape()){
+      messageToBeSent.setImeOptions(EditorInfo.IME_ACTION_DONE);
+    }else{
+      messageToBeSent.setImeOptions(EditorInfo.IME_ACTION_NONE);
+    }
   }
 
   @Override
@@ -110,7 +126,7 @@ public class ChatFragment extends Fragment implements ChatView {
     messageToBeSent.getText().clear();
   }
 
-  public static Fragment newInsntace(Bundle extras) {
+  public static Fragment newInstance(Bundle extras) {
     Fragment fragment = new ChatFragment();
     fragment.setArguments(extras);
     return fragment;
