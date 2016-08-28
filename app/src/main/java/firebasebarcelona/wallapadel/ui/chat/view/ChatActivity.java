@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,6 +14,7 @@ import firebasebarcelona.wallapadel.R;
 public class ChatActivity extends AppCompatActivity {
   private static final String TAG = "ChatFragment";
   @BindView(R.id.container) FrameLayout container;
+  @BindView(R.id.toolbar) Toolbar toolbar;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +25,12 @@ public class ChatActivity extends AppCompatActivity {
       getSupportFragmentManager().beginTransaction().add(R.id.container, ChatFragment.newInstance(getIntent().getExtras()),
       ChatActivity.TAG).commit();
     }
+    initActionBar();
+  }
+
+  private void initActionBar() {
+    setSupportActionBar(toolbar);
+    setTitle("Chat");
   }
 
   public static Intent newIntent(Context context, String courtId) {
