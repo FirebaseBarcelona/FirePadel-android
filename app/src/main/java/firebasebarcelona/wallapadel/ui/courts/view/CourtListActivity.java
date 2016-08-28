@@ -33,6 +33,7 @@ public class CourtListActivity extends AppCompatActivity implements CourtListFra
 
   private void initActionBar() {
     setSupportActionBar(toolbar);
+    setTitle("Join a padel game");
   }
 
   @Override

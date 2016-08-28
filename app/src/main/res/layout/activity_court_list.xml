@@ -3,6 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               tools:context=".ui.courts.view.CourtListActivity">
 
@@ -13,26 +14,18 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize">
+        android:layout_height="?android:attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/white"
+        >
 
-      <FrameLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="left|center_vertical" />
-
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@null"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="12dp" />
-      </FrameLayout>
+      <ImageView
+          android:id="@+id/avatar"
+          android:layout_width="32dp"
+          android:layout_height="32dp"
+          android:layout_gravity="right|center_vertical"
+          android:layout_marginRight="12dp"
+          android:contentDescription="@null" />
     </android.support.v7.widget.Toolbar>
   </android.support.design.widget.AppBarLayout>
 
