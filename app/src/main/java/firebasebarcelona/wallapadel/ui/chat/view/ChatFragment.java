@@ -64,6 +64,11 @@ public class ChatFragment extends Fragment implements ChatView {
     initRecyclerView();
   }
 
+  @Override
+  public void onPause() {
+    super.onPause();
+  }
+
   private void initRecyclerView() {
     chatAdapter = new ChatAdapter();
     chatList.setAdapter(chatAdapter);
