@@ -13,16 +13,21 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import firebasebarcelona.wallapadel.R;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.ui.models.MessageViewModel;
+import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
+  private static final int OTHER_MESSAGE = 1;
+  private static final int MY_MESSAGE = 0;
   private final Context context;
   private List<MessageViewModel> messages;
+  private PlayerViewModel localPlayer;
 
-  public ChatAdapter(Context context) {
+  public ChatAdapter(Context context, PlayerViewModel player) {
     this.context = context;
     messages = new ArrayList<>();
+    localPlayer = player;
   }
 
   public void updateMessages(List<MessageViewModel> messages) {
@@ -33,9 +38,27 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
   @Override
   public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    View view = inflater.inflate(R.layout.chat_message_mine, parent, false);
+    View view = inflater.inflate(getLayout(viewType), parent, false);
     ChatViewHolder viewHolder = new ChatViewHolder(view);
     return viewHolder;
+  }
+
+  private int getLayout(int viewType) {
+    if (viewType == MY_MESSAGE) {
+      return R.layout.chat_message_mine;
+    } else {
+      return R.layout.chat_message_from_other;
+    }
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    MessageViewModel messageViewModel = messages.get(position);
+    if (messageViewModel.getUserUUID().equals(localPlayer.getId())) {
+      return MY_MESSAGE;
+    } else {
+      return OTHER_MESSAGE;
+    }
   }
 
   @Override
@@ -46,8 +69,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
   }
 
   private void renderAvatar(final ChatViewHolder holder, MessageViewModel message) {
-    Glide.with(PadelApplication.getInstance()).load(
-    message.getAvatar()).asBitmap().centerCrop().into(
+    Glide.with(PadelApplication.getInstance()).load(message.getAvatar()).asBitmap().centerCrop().into(
     new BitmapImageViewTarget(holder.avatar) {
       @Override
       protected void setResource(Bitmap resource) {
@@ -61,5 +83,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
   @Override
   public int getItemCount() {
     return messages.size();
+  }
+
+  public void setLocalPlayer(PlayerViewModel localPlayer) {
+    this.localPlayer = localPlayer;
   }
 }

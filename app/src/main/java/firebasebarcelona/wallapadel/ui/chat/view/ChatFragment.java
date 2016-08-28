@@ -25,6 +25,7 @@ import firebasebarcelona.wallapadel.app.di.module.ViewModule;
 import firebasebarcelona.wallapadel.ui.chat.presentation.ChatPresenter;
 import firebasebarcelona.wallapadel.ui.chat.presentation.ChatView;
 import firebasebarcelona.wallapadel.ui.models.MessageViewModel;
+import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -86,16 +87,15 @@ public class ChatFragment extends Fragment implements ChatView {
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-    initRecyclerView();
     chatPresenter.requestToChat(courtId);
     Toast.makeText(getActivity(), "Court " + courtId, Toast.LENGTH_SHORT).show();
     configureInputMode();
   }
 
   private void configureInputMode() {
-    if(isInLandscape()){
+    if (isInLandscape()) {
       messageToBeSent.setImeOptions(EditorInfo.IME_ACTION_DONE);
-    }else{
+    } else {
       messageToBeSent.setImeOptions(EditorInfo.IME_ACTION_NONE);
     }
   }
@@ -105,8 +105,8 @@ public class ChatFragment extends Fragment implements ChatView {
     super.onPause();
   }
 
-  private void initRecyclerView() {
-    chatAdapter = new ChatAdapter(getActivity());
+  private void initRecyclerView(PlayerViewModel player) {
+    chatAdapter = new ChatAdapter(getActivity(), player);
     chatList.setAdapter(chatAdapter);
     chatList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
   }
@@ -124,6 +124,11 @@ public class ChatFragment extends Fragment implements ChatView {
   @Override
   public void clearMessageToBeSend() {
     messageToBeSent.getText().clear();
+  }
+
+  @Override
+  public void renderList(PlayerViewModel player) {
+    initRecyclerView(player);
   }
 
   public static Fragment newInstance(Bundle extras) {
