@@ -4,4 +4,5 @@
   <dimen name="activity_vertical_margin">16dp</dimen>
   <dimen name="item_court_corner_radius">4dp</dimen>
   <dimen name="item_court_avatar_size">40dp</dimen>
+  <dimen name="message_padding">8dp</dimen>
 </resources>

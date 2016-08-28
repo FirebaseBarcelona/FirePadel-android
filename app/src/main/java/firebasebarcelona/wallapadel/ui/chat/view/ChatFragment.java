@@ -109,11 +109,14 @@ public class ChatFragment extends Fragment implements ChatView {
     chatAdapter = new ChatAdapter(getActivity(), player);
     chatList.setAdapter(chatAdapter);
     chatList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
+    chatList.addItemDecoration(new ChatMessageDecorator());
   }
 
   @OnClick(R.id.send_message)
   public void onSendMessageClick() {
-    chatPresenter.onSendMessageClick(messageToBeSent.getText().toString());
+    if (messageToBeSent.getText().toString().length() > 0) {
+      chatPresenter.onSendMessageClick(messageToBeSent.getText().toString());
+    }
   }
 
   @Override

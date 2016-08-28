@@ -3,7 +3,6 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@android:color/white"
               android:orientation="horizontal">
 
   <ImageView
@@ -21,7 +20,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
       android:layout_marginLeft="8dp"
-      android:background="#c4c4c4"
-      android:padding="12dp"
+      android:background="@drawable/message_background"
+      android:padding="@dimen/message_padding"
       tools:text="Hey friend, whats up!" />
 </LinearLayout>

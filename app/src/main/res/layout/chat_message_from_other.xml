@@ -3,7 +3,6 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@android:color/white"
               android:gravity="end"
               android:orientation="horizontal">
 
@@ -14,9 +13,9 @@
       android:layout_gravity="center_vertical"
       android:layout_marginLeft="20dp"
       android:layout_weight="1"
-      android:background="#c4c4c4"
+      android:background="@drawable/message_others_background"
       android:gravity="right"
-      android:padding="12dp"
+      android:padding="@dimen/message_padding"
       tools:text="Hey friend, whats up! Hey friend, whats up! Hey friend, whats up! " />
 
   <ImageView
