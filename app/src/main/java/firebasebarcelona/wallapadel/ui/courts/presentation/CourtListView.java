@@ -10,7 +10,7 @@ public interface CourtListView {
   void updateCourt(CourtViewModel court);
   void showLoginProcess();
   void loginWithGoogle();
-  void setMyPlayer(PlayerViewModel myPlayer);
+  void renderLocalPlayer(PlayerViewModel myPlayer);
   void openChat(String courtId);
   void renderAddPlayerToCourtError();
   void renderDateForBooking(Date date);

@@ -17,7 +17,7 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
   private static final int MAX_PLAYERS = 4;
   private final List<CourtViewModel> items;
   private final ImageLoader imageLoader;
-  private final PlayerViewModel myPlayer;
+  private PlayerViewModel myPlayer;
   private final CourtAdapterEvents events;
 
   public CourtAdapter(List<CourtViewModel> items, ImageLoader imageLoader, PlayerViewModel myPlayer, CourtAdapterEvents events) {
@@ -69,6 +69,8 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
     holder.chat.setVisibility(View.GONE);
     if (players.size() == 4) {
       holder.addPlayer.setVisibility(View.GONE);
+    } else {
+      holder.addPlayer.setVisibility(View.VISIBLE);
     }
   }
 
@@ -113,6 +115,11 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
       }
     }
     notifyItemRangeChanged(0, 2);
+  }
+
+  public void setLocalPlayer(PlayerViewModel localPlayer) {
+    this.myPlayer = localPlayer;
+    notifyDataSetChanged();
   }
 
   interface CourtAdapterEvents {

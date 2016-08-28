@@ -5,9 +5,9 @@ import android.util.TypedValue;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import javax.inject.Inject;
 
-public class DpToPxConversor {
+public class DpToPxConverse {
   @Inject
-  public DpToPxConversor() {
+  public DpToPxConverse() {
   }
 
   public float dpToPx(int dp) {

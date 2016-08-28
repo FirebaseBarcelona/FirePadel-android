@@ -3,12 +3,12 @@ package firebasebarcelona.wallapadel.ui.courts.view;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import firebasebarcelona.wallapadel.ui.DpToPxConversor;
+import firebasebarcelona.wallapadel.ui.DpToPxConverse;
 
 public class CourtsItemDecorator extends RecyclerView.ItemDecoration {
-  private final DpToPxConversor conversor;
+  private final DpToPxConverse conversor;
 
-  public CourtsItemDecorator(DpToPxConversor conversor) {
+  public CourtsItemDecorator(DpToPxConverse conversor) {
     this.conversor = conversor;
   }
 

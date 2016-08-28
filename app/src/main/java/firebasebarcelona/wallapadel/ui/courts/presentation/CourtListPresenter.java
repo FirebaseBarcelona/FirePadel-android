@@ -65,7 +65,7 @@ public class CourtListPresenter {
   }
 
   public void setLocalPlayer(PlayerViewModel playerViewModel) {
-    courtListView.setMyPlayer(playerViewModel);
+    courtListView.renderLocalPlayer(playerViewModel);
     Player player = playerViewModelMapper.map(playerViewModel);
     saveLocalPlayerUseCase.execute(player, new SaveLocalPlayerUseCase.Callback() {
       @Override

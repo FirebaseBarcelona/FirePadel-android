@@ -32,7 +32,7 @@ import firebasebarcelona.wallapadel.R;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
 import firebasebarcelona.wallapadel.app.di.module.ViewModule;
-import firebasebarcelona.wallapadel.ui.DpToPxConversor;
+import firebasebarcelona.wallapadel.ui.DpToPxConverse;
 import firebasebarcelona.wallapadel.ui.chat.view.ChatActivity;
 import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListPresenter;
@@ -52,7 +52,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   public static final String TAG = CourtListFragment.class.getSimpleName();
   @Inject CourtListPresenter presenter;
   @Inject ImageLoader imageLoader;
-  @Inject DpToPxConversor dpToPxConversor;
+  @Inject DpToPxConverse dpToPxConverse;
   @BindView(R.id.courts_list) RecyclerView courts;
   @BindView(R.id.date_for_courts) TextView dateForCourts;
   private CourtAdapter courtAdapter;
@@ -97,7 +97,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     courts.setHasFixedSize(true);
     courts.setLayoutManager(new LinearLayoutManager(getContext()));
     courts.setAdapter(courtAdapter);
-    courts.addItemDecoration(new CourtsItemDecorator(dpToPxConversor));
+    courts.addItemDecoration(new CourtsItemDecorator(dpToPxConverse));
   }
 
   @Override
@@ -151,6 +151,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     Uri photoUri = user.getPhotoUrl();
     PlayerViewModel playerViewModel = new PlayerViewModel.Builder().id(user.getUid()).email(user.getEmail()).photoUrl(
     photoUri == null ? "" : photoUri.toString()).name(user.getDisplayName()).build();
+    myPlayer = playerViewModel;
     presenter.setLocalPlayer(playerViewModel);
   }
 
@@ -207,9 +208,12 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   }
 
   @Override
-  public void setMyPlayer(PlayerViewModel myPlayer) {
+  public void renderLocalPlayer(PlayerViewModel myPlayer) {
     this.myPlayer = myPlayer;
     ((CourtListParent) getActivity()).renderLoggedUser(myPlayer);
+    if(courtAdapter != null){
+      courtAdapter.setLocalPlayer(myPlayer);
+    }
   }
 
   @Override
