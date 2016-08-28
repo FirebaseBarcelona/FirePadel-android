@@ -5,8 +5,9 @@ import dagger.Component;
 import firebasebarcelona.wallapadel.app.di.module.ApplicationModule;
 import firebasebarcelona.wallapadel.data.chat.repository.ChatRepository;
 import firebasebarcelona.wallapadel.data.courts.repository.CourtRepository;
+import firebasebarcelona.wallapadel.data.padel.repository.PadelRepository;
 import firebasebarcelona.wallapadel.data.player.repository.PlayerRepository;
-import firebasebarcelona.wallapadel.ui.DpConversor;
+import firebasebarcelona.wallapadel.ui.DpToPxConversor;
 import javax.inject.Singleton;
 
 @Component(modules = ApplicationModule.class) @Singleton public interface ApplicationComponent {
@@ -14,5 +15,6 @@ import javax.inject.Singleton;
   CourtRepository getCourtRepository();
   PlayerRepository getPlayerRepository();
   ChatRepository getChatRepository();
-  DpConversor getDpConversor();
+  DpToPxConversor getDpConversor();
+  PadelRepository getPadelRepository();
 }

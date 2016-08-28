@@ -3,4 +3,6 @@
   <string name="google_login_button">Login With Google</string>
   <string name="chat_hint">Wirte a message</string>
   <string name="no_players_joined">There are no players for this court. Join, and have some fun</string>
+  <string name="hour_separation_at">at</string>
+  <string name="date_of_book">The game is played on %1$s</string>
 </resources>

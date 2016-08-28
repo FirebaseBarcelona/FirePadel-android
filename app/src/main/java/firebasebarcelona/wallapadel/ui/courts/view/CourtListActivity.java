@@ -13,9 +13,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import firebasebarcelona.wallapadel.R;
-import firebasebarcelona.wallapadel.ui.DpConversor;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
-import javax.inject.Inject;
 
 public class CourtListActivity extends AppCompatActivity implements CourtListFragment.CourtListParent {
   @BindView(R.id.container) FrameLayout container;

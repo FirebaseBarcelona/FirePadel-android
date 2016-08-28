@@ -2,6 +2,7 @@ package firebasebarcelona.wallapadel.ui.courts.presentation;
 
 import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
+import java.util.Date;
 import java.util.List;
 
 public interface CourtListView {
@@ -12,4 +13,5 @@ public interface CourtListView {
   void setMyPlayer(PlayerViewModel myPlayer);
   void openChat(String courtId);
   void renderAddPlayerToCourtError();
+  void renderDateForBooking(Date date);
 }

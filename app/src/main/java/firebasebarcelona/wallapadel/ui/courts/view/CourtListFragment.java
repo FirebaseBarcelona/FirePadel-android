@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,15 +32,19 @@ import firebasebarcelona.wallapadel.R;
 import firebasebarcelona.wallapadel.app.PadelApplication;
 import firebasebarcelona.wallapadel.app.di.component.DaggerViewComponent;
 import firebasebarcelona.wallapadel.app.di.module.ViewModule;
-import firebasebarcelona.wallapadel.ui.DpConversor;
+import firebasebarcelona.wallapadel.ui.DpToPxConversor;
 import firebasebarcelona.wallapadel.ui.chat.view.ChatActivity;
 import firebasebarcelona.wallapadel.ui.common.ImageLoader;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListPresenter;
 import firebasebarcelona.wallapadel.ui.courts.presentation.CourtListView;
 import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.inject.Inject;
 
 public class CourtListFragment extends Fragment
@@ -47,8 +52,9 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   public static final String TAG = CourtListFragment.class.getSimpleName();
   @Inject CourtListPresenter presenter;
   @Inject ImageLoader imageLoader;
-  @Inject DpConversor dpConversor;
+  @Inject DpToPxConversor dpToPxConversor;
   @BindView(R.id.courts_list) RecyclerView courts;
+  @BindView(R.id.date_for_courts) TextView dateForCourts;
   private CourtAdapter courtAdapter;
   private GoogleSignInOptions googleSignInOptions;
   private GoogleApiClient client;
@@ -71,6 +77,11 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
       initGoogleApi();
     }
     initRecyclerView();
+    initView();
+  }
+
+  private void initView() {
+    presenter.requestDateForBooking();
   }
 
   private void initGoogleApi() {
@@ -86,7 +97,7 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     courts.setHasFixedSize(true);
     courts.setLayoutManager(new LinearLayoutManager(getContext()));
     courts.setAdapter(courtAdapter);
-    courts.addItemDecoration(new CourtsItemDecorator(dpConversor));
+    courts.addItemDecoration(new CourtsItemDecorator(dpToPxConversor));
   }
 
   @Override
@@ -210,6 +221,13 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
   @Override
   public void renderAddPlayerToCourtError() {
     Toast.makeText(getActivity(), "You are already in another court", Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
+  public void renderDateForBooking(Date date) {
+    String atHour = getString(R.string.hour_separation_at);
+    DateFormat format = new SimpleDateFormat("EEEE d MMMM, '" + atHour + "' HH:mm", Locale.getDefault());
+    dateForCourts.setText(getString(R.string.date_of_book, format.format(date)));
   }
 
   @Override

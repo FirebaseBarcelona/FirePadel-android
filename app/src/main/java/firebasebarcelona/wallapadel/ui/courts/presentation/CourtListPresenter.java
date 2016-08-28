@@ -2,12 +2,12 @@ package firebasebarcelona.wallapadel.ui.courts.presentation;
 
 import firebasebarcelona.wallapadel.app.rx.AbsSubscriber;
 import firebasebarcelona.wallapadel.domain.cases.AddPlayerToCourtUseCase;
+import firebasebarcelona.wallapadel.domain.cases.GetNextDateForCourtBookingUseCase;
 import firebasebarcelona.wallapadel.domain.cases.IsPlayerInCourtUseCase;
 import firebasebarcelona.wallapadel.domain.cases.RemovePlayerFromCourtUseCase;
 import firebasebarcelona.wallapadel.domain.cases.SaveLocalPlayerUseCase;
 import firebasebarcelona.wallapadel.domain.cases.SubscribeToCourtsUseCase;
 import firebasebarcelona.wallapadel.domain.cases.callbacks.IsPlayerInCourtCallback;
-import firebasebarcelona.wallapadel.domain.cases.callbacks.OnGetCourtsCallback;
 import firebasebarcelona.wallapadel.domain.exceptions.PlayerInAnotherCourtException;
 import firebasebarcelona.wallapadel.domain.models.Court;
 import firebasebarcelona.wallapadel.domain.models.Player;
@@ -15,6 +15,7 @@ import firebasebarcelona.wallapadel.ui.models.CourtViewModel;
 import firebasebarcelona.wallapadel.ui.models.CourtViewModelMapper;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModel;
 import firebasebarcelona.wallapadel.ui.models.PlayerViewModelMapper;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -29,14 +30,15 @@ public class CourtListPresenter {
   private IsPlayerInCourtUseCase isPlayerInCourtUseCase;
   private RemovePlayerFromCourtUseCase removePlayerFromCourtUseCase;
   private final SubscribeToCourtsUseCase subscribeToCourtsUseCase;
-  private OnGetCourtsCallback getCourtsCallback;
+  private final GetNextDateForCourtBookingUseCase getNextDateForCourtBookingUseCase;
 
   @Inject
   public CourtListPresenter(AddPlayerToCourtUseCase addPlayerToCourtUseCase, SaveLocalPlayerUseCase saveLocalPlayerUseCase,
                            CourtViewModelMapper courtViewModelMapper, PlayerViewModelMapper playerViewModelMapper,
                            CourtListView courtListView, IsPlayerInCourtUseCase isPlayerInCourtUseCase,
                            RemovePlayerFromCourtUseCase removePlayerFromCourtUseCase,
-                           SubscribeToCourtsUseCase subscribeToCourtsUseCase) {
+                           SubscribeToCourtsUseCase subscribeToCourtsUseCase,
+                           GetNextDateForCourtBookingUseCase getNextDateForCourtBookingUseCase) {
     this.addPlayerToCourtUseCase = addPlayerToCourtUseCase;
     this.saveLocalPlayerUseCase = saveLocalPlayerUseCase;
     this.courtViewModelMapper = courtViewModelMapper;
@@ -45,6 +47,7 @@ public class CourtListPresenter {
     this.isPlayerInCourtUseCase = isPlayerInCourtUseCase;
     this.removePlayerFromCourtUseCase = removePlayerFromCourtUseCase;
     this.subscribeToCourtsUseCase = subscribeToCourtsUseCase;
+    this.getNextDateForCourtBookingUseCase = getNextDateForCourtBookingUseCase;
   }
 
   public void subscribeToCourts() {
@@ -57,7 +60,7 @@ public class CourtListPresenter {
     });
   }
 
-  public void unsubscribeToCourts(){
+  public void unsubscribeToCourts() {
     subscribeToCourtsUseCase.unsuscribe();
   }
 
@@ -123,5 +126,15 @@ public class CourtListPresenter {
 
   public void requestToChat(String courtId) {
     courtListView.openChat(courtId);
+  }
+
+  public void requestDateForBooking() {
+    getNextDateForCourtBookingUseCase.execute(new GetNextDateForCourtBookingUseCase.Callback() {
+      @Override
+      public void onNextDateReady(long timestamp) {
+        Date date = new Date(timestamp);
+        courtListView.renderDateForBooking(date);
+      }
+    });
   }
 }
