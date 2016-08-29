@@ -52,13 +52,15 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtViewHolder> implemen
       holder.titleNoPlayers.setVisibility(View.GONE);
       initFABs(holder, players);
       for (int playerPosition = 0; playerPosition < players.size(); playerPosition++) {
-        PlayerViewModel player = players.get(playerPosition);
-        ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
-        imageLoader.loadImage(holder.itemView.getContext(), avatar, player.getPhotoUrl());
-        TextView name = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.name);
-        name.setText(player.getName());
-        if (myPlayer != null && player.getId().equals(myPlayer.getId())) {
-          playerInCourt(holder);
+        if (playerPosition < 4) {
+          PlayerViewModel player = players.get(playerPosition);
+          ImageView avatar = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.avatar);
+          imageLoader.loadImage(holder.itemView.getContext(), avatar, player.getPhotoUrl());
+          TextView name = ButterKnife.findById(holder.players.getChildAt(playerPosition), R.id.name);
+          name.setText(player.getName());
+          if (myPlayer != null && player.getId().equals(myPlayer.getId())) {
+            playerInCourt(holder);
+          }
         }
       }
     }
