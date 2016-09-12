@@ -30,7 +30,6 @@ public class ChatActivity extends AppCompatActivity {
 
   private void initActionBar() {
     setSupportActionBar(toolbar);
-    setTitle("Chat");
   }
 
   public static Intent newIntent(Context context, String courtId) {
