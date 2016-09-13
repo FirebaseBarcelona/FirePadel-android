@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:174503785192:android:deb2fbcdc1c3bb8c",
+        "mobilesdk_app_id": "1:174503785192:android:1bd6e5800d3f174b",
         "android_client_info": {
-          "package_name": "firebasebarcelona.wallapadel"
+          "package_name": "firebasebarcelona.firepadel"
         }
       },
       "oauth_client": [
         {
-          "client_id": "174503785192-6u8n0n65h92lnsjcgv735gkqslk3uang.apps.googleusercontent.com",
+          "client_id": "174503785192-8ipvsd1k2ogr74e9m0ggtlflm1k94ua5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "firebasebarcelona.wallapadel",
+            "package_name": "firebasebarcelona.firepadel",
             "certificate_hash": "F7E5F92FE88E133011A3013D434BF87FE85B5EF3"
           }
         },
@@ -42,6 +42,13 @@
             {
               "client_id": "174503785192-se0l963tfe08j1cubqajoj6hj34e88q9.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "174503785192-7n3f04vc0hmgmsc8anvid2srnqeotns9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.firebasebarcelona.FirePadel"
+              }
             }
           ]
         },

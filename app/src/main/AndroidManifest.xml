@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="firebasebarcelona.wallapadel">
+          package="firebasebarcelona.firepadel">
   
   <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -11,17 +11,17 @@
       android:label="@string/app_name"
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
-      android:name=".app.PadelApplication"
+      android:name="firebasebarcelona.firepadel.app.PadelApplication"
       tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-    <activity android:name=".ui.courts.view.CourtListActivity">
+    <activity android:name="firebasebarcelona.firepadel.ui.courts.view.CourtListActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".ui.login.view.LoginActivity"/>
-    <activity android:name=".ui.chat.view.ChatActivity"/>
+    <activity android:name="firebasebarcelona.firepadel.ui.login.view.LoginActivity"/>
+    <activity android:name="firebasebarcelona.firepadel.ui.chat.view.ChatActivity"/>
   </application>
 
 </manifest>
