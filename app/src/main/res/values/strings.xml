@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">WallaPadel</string>
+  <string name="app_name">FirePadel</string>
   <string name="google_login_button">Login With Google</string>
   <string name="chat_hint">Wirte a message</string>
   <string name="no_players_joined">There are no players for this court. Join, and have some fun</string>
