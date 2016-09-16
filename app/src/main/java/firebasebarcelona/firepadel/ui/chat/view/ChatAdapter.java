@@ -47,7 +47,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
     if (viewType == MY_MESSAGE) {
       return R.layout.chat_message_mine;
     } else {
-      return R.layout.chat_message_from_other;
+      return R.layout.chat_message_other;
     }
   }
 
