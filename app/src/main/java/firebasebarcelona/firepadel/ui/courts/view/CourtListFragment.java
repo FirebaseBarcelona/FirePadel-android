@@ -124,7 +124,6 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
     presenter.requestToChat(courtId);
   }
 
-  //TODO every piece of code from here needs a refactor
   public static final int RC_GOOGLE_LOGIN = 333;
   private FirebaseAuth firebaseAuth;
   private FirebaseAuth.AuthStateListener authStateListener;
@@ -141,7 +140,6 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
         if (user != null) {
           saveLocalPlayer(user);
         } else {
-          //TODO show some kind of error
         }
       }
     };
@@ -181,7 +179,6 @@ implements CourtListView, GoogleApiClient.OnConnectionFailedListener, CourtAdapt
         GoogleSignInAccount account = googleSignInResult.getSignInAccount();
         firebaseAuthWithGoogle(account);
       } else {
-        //TODO show some kind of error
       }
     }
   }
